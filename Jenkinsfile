@@ -49,7 +49,6 @@ pipeline {
                                 npm uninstall -g appium || true
                                 npm install -g appium@2.5.4
                                 echo "✅ Installation Terminée"
-                                echo "État final:"
                                 appium driver list --installed || true
                             '''
                         }
@@ -72,20 +71,17 @@ pipeline {
                             echo "🚀 Démarrage d'Appium..."
                             pkill -f appium || true
                             sleep 2
-                            echo "Démarrage du serveur Appium..."
                             appium --log appium.log --relaxed-security > /dev/null 2>&1 &
                             sleep 10
                             if curl -s http://localhost:4723/status | grep -q "ready"; then
                                 echo "✅ Serveur Appium démarré avec succès"
                             else
                                 echo "❌ Échec du démarrage du serveur Appium"
-                                cat appium.log
                                 exit 1
                             fi
                         '''
                     } catch (Exception e) {
                         echo "❌ Erreur de Démarrage Appium: ${e.message}"
-                        sh 'cat appium.log || true'
                         throw e
                     }
                 }
@@ -162,7 +158,6 @@ pipeline {
             }
             options {
                 timeout(time: 30, unit: 'MINUTES')
-                retry(2)
             }
         }
 
