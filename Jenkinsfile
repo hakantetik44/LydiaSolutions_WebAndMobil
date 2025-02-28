@@ -235,7 +235,7 @@ pipeline {
                 cucumber(
                     fileIncludePattern: 'cucumber.json',
                     jsonReportDirectory: 'target/cucumber-reports',
-                    reportTitle: 'Wigl',
+                    reportTitle: 'Wigl Mobile Test Results',
                     buildStatus: currentBuild.result == 'UNSTABLE' ? 'UNSTABLE' : 'SUCCESS',
                     classificationsFiles: ['config/classifications.properties'],
                     mergeFeaturesById: true,
