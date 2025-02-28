@@ -1,8 +1,0 @@
-utils/ConfigReader.class
-runners/CukesRunner.class
-utils/OS.class
-stepDefinitions/WiglLoginSteps.class
-stepDefinitions/Hooks.class
-pages/BasePage.class
-pages/WiglLoginPage.class
-utils/Driver.class
