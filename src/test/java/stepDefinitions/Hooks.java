@@ -15,7 +15,6 @@ import java.io.IOException;
 public class Hooks {
     private Scenario scenario;
     private String platform;
-    private Process videoProcess;
 
     @Before
     public void setUp(Scenario scenario) throws IOException {
@@ -46,10 +45,6 @@ public class Hooks {
                 "Language: French\n" +
                 "Test Framework: Cucumber\n" +
                 "Timestamp: " + java.time.Instant.now());
-
-        // FFmpeg komutunu çalıştırarak video kaydını başlat
-        String command = "ffmpeg -f x11grab -s 1920x1080 -i :0.0 -r 30 -vcodec libx264 output.mp4";
-        videoProcess = Runtime.getRuntime().exec(command);
     }
 
     private void startApplication() {
@@ -89,9 +84,6 @@ public class Hooks {
 
     @After
     public void tearDown(Scenario scenario) {
-        if (videoProcess != null) {
-            videoProcess.destroy(); // Video kaydını durdur
-        }
         try {
             if (scenario.isFailed()) {
                 try {
