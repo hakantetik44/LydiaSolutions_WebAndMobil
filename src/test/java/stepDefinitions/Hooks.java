@@ -41,7 +41,7 @@ public class Hooks {
         try {
             System.out.println("Démarrage de l'application pour le scénario - Plateforme: " + platform);
             
-            WebDriver driver = Driver.getCurrentDriver();
+            WebDriver driver = Driver.getDriver();
             if (driver == null) {
                 throw new RuntimeException("Impossible de démarrer le driver - Plateforme: " + platform);
             }
@@ -65,7 +65,7 @@ public class Hooks {
 
     @Given("l'application Les Residences est ouverte")
     public void verifierApplicationOuverte() {
-        WebDriver driver = Driver.getCurrentDriver();
+        WebDriver driver = Driver.getDriver();
         if (driver == null) {
             throw new RuntimeException("L'application n'est pas démarrée!");
         }
@@ -77,7 +77,7 @@ public class Hooks {
         try {
             if (scenario.isFailed()) {
                 try {
-                    WebDriver driver = Driver.getCurrentDriver();
+                    WebDriver driver = Driver.getDriver();
                     if (driver instanceof TakesScreenshot) {
                         byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
                         String screenshotName = String.format("capture-erreur-%s-%s", platform, scenario.getName());
@@ -99,7 +99,7 @@ public class Hooks {
             // Forcer la fermeture de l'application
             System.out.println("Fermeture forcée de l'application...");
             try {
-                WebDriver driver = Driver.getCurrentDriver();
+                WebDriver driver = Driver.getDriver();
                 if (driver != null) {
                     driver.quit();
                 }
