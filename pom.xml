@@ -285,7 +285,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <projectName>Aareon Mobile Tests</projectName>
+                            <projectName>Wigl Mobile Tests</projectName>
                             <outputDirectory>${project.build.directory}/cucumber-reports</outputDirectory>
                             <inputDirectory>${project.build.directory}/cucumber-reports</inputDirectory>
                             <jsonFiles>

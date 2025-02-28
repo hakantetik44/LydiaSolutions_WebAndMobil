@@ -34,7 +34,6 @@ pipeline {
                     sh '''
                         echo "🔧 Informations sur l'environnement:"
                         echo "ANDROID_HOME: $ANDROID_HOME"
-                        echo "JAVA_HOME: $JAVA_HOME"
                     '''
                 }
             }
@@ -49,35 +48,9 @@ pipeline {
                                 echo "📱 Installation d'Appium"
                                 npm uninstall -g appium || true
                                 npm install -g appium@2.5.4
-                                
-                                echo "🔍 Vérification du Driver"
-                                INSTALLED_DRIVERS=$(appium driver list --installed || true)
-                                echo "Drivers installés:"
-                                echo "$INSTALLED_DRIVERS"
-                                
-                                if [ "${PLATFORM}" = "Android" ]; then
-                                    echo "🤖 Gestion du Driver Android"
-                                    if echo "$INSTALLED_DRIVERS" | grep -q "uiautomator2"; then
-                                        echo "Mise à jour du driver uiautomator2..."
-                                        appium driver update uiautomator2 || true
-                                    else
-                                        echo "uiautomator2 driver installé..."
-                                        appium driver install uiautomator2 || true
-                                    fi
-                                elif [ "${PLATFORM}" = "iOS" ]; then
-                                    echo "🍎 Gestion du Driver iOS"
-                                    if echo "$INSTALLED_DRIVERS" | grep -q "xcuitest"; then
-                                        echo "Mise à jour du driver xcuitest..."
-                                        appium driver update xcuitest || true
-                                    else
-                                        echo "xcuitest driver installé..."
-                                        appium driver install xcuitest || true
-                                    fi
-                                fi
-                                
                                 echo "✅ Installation Terminée"
                                 echo "État final:"
-                                appium driver list --installed
+                                appium driver list --installed || true
                             '''
                         }
                     } catch (Exception e) {
@@ -99,31 +72,15 @@ pipeline {
                             echo "🚀 Démarrage d'Appium..."
                             pkill -f appium || true
                             sleep 2
-                            
                             echo "Démarrage du serveur Appium..."
                             appium --log appium.log --relaxed-security > /dev/null 2>&1 &
-                            
-                            echo "Attente du démarrage du serveur..."
                             sleep 10
-                            
-                            echo "État du serveur..."
                             if curl -s http://localhost:4723/status | grep -q "ready"; then
                                 echo "✅ Serveur Appium démarré avec succès"
                             else
                                 echo "❌ Échec du démarrage du serveur Appium"
                                 cat appium.log
                                 exit 1
-                            fi
-                            
-                            if [ "${PLATFORM}" = "Android" ]; then
-                                echo "📱 Vérification de l'Appareil Android"
-                                adb devices
-                                
-                                if ! adb devices | grep -q "device$"; then
-                                    echo "❌ Aucun appareil connecté!"
-                                    exit 1
-                                fi
-                                echo "✅ Connexion à l'appareil Android réussie"
                             fi
                         '''
                     } catch (Exception e) {
@@ -198,9 +155,8 @@ pipeline {
                     } catch (Exception e) {
                         echo "⚠️ Test Error:" 
                         echo "Error Message: ${e.message}"
-                        e.printStackTrace()
-                        Platform: ${params.PLATFORM}
-                        Build: ${BUILD_NUMBER}
+                        echo "Platform: ${params.PLATFORM}"
+                        echo "Build: ${BUILD_NUMBER}"
                     }
                 }
             }
@@ -292,13 +248,11 @@ pipeline {
                 // Archiver les rapports Allure
                 archiveArtifacts artifacts: 'target/allure-results/**/*.*,target/allure-report/**/*.*', fingerprint: true
 
-                echo """
-                    📊 Résultats des Tests:
-                    📱 Plateforme: ${params.PLATFORM}
-                    🌿 Branche: ${env.BRANCH_NAME ?: 'unknown'}
-                    🏗️ État: ${currentBuild.currentResult}
-                    ℹ️ Note: Les tests marqués @known_issue sont signalés comme des avertissements
-                """
+                echo "📊 Résultats des Tests:"
+                echo "📱 Plateforme: ${params.PLATFORM}"
+                echo "🌿 Branche: ${env.BRANCH_NAME ?: 'unknown'}"
+                echo "🏗️ État: ${currentBuild.currentResult}"
+                echo "ℹ️ Note: Les tests marqués @known_issue sont signalés comme des avertissements"
             }
         }
         cleanup {
