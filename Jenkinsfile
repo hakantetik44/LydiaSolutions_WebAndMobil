@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         ANDROID_HOME = '/Users/hakantetik/Library/Android/sdk'
-        PATH = "${env.ANDROID_HOME}/platform-tools:${env.ANDROID_HOME}/tools:${env.PATH}"
+        PATH = "/usr/local/bin:${env.ANDROID_HOME}/platform-tools:${env.ANDROID_HOME}/tools:${env.PATH}"
         ALLURE_HOME = tool 'Allure'
     }
 
@@ -34,7 +34,6 @@ pipeline {
                     sh '''
                         echo "🔧 Informations sur l'environnement:"
                         echo "ANDROID_HOME: $ANDROID_HOME"
-                        echo "PATH: $PATH"
                         echo "JAVA_HOME: $JAVA_HOME"
                     '''
                 }
