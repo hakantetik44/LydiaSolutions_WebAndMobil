@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         ANDROID_HOME = '/Users/hakantetik/Library/Android/sdk'
-        PATH = "/usr/local/bin:${env.ANDROID_HOME}/platform-tools:${env.ANDROID_HOME}/tools:${env.PATH}"
+        PATH = "${env.ANDROID_HOME}/platform-tools:${env.ANDROID_HOME}/tools:${env.PATH}"
         ALLURE_HOME = tool 'Allure'
     }
 
@@ -34,6 +34,8 @@ pipeline {
                     sh '''
                         echo "🔧 Informations sur l'environnement:"
                         echo "ANDROID_HOME: $ANDROID_HOME"
+                        echo "PATH: $PATH"
+                        echo "JAVA_HOME: $JAVA_HOME"
                     '''
                 }
             }
@@ -48,8 +50,35 @@ pipeline {
                                 echo "📱 Installation d'Appium"
                                 npm uninstall -g appium || true
                                 npm install -g appium@2.5.4
+                                
+                                echo "🔍 Vérification du Driver"
+                                INSTALLED_DRIVERS=$(appium driver list --installed || true)
+                                echo "Drivers installés:"
+                                echo "$INSTALLED_DRIVERS"
+                                
+                                if [ "${PLATFORM}" = "Android" ]; then
+                                    echo "🤖 Gestion du Driver Android"
+                                    if echo "$INSTALLED_DRIVERS" | grep -q "uiautomator2"; then
+                                        echo "Mise à jour du driver uiautomator2..."
+                                        appium driver update uiautomator2 || true
+                                    else
+                                        echo "uiautomator2 driver installé..."
+                                        appium driver install uiautomator2 || true
+                                    fi
+                                elif [ "${PLATFORM}" = "iOS" ]; then
+                                    echo "🍎 Gestion du Driver iOS"
+                                    if echo "$INSTALLED_DRIVERS" | grep -q "xcuitest"; then
+                                        echo "Mise à jour du driver xcuitest..."
+                                        appium driver update xcuitest || true
+                                    else
+                                        echo "xcuitest driver installé..."
+                                        appium driver install xcuitest || true
+                                    fi
+                                fi
+                                
                                 echo "✅ Installation Terminée"
-                                appium driver list --installed || true
+                                echo "État final:"
+                                appium driver list --installed
                             '''
                         }
                     } catch (Exception e) {
@@ -71,17 +100,36 @@ pipeline {
                             echo "🚀 Démarrage d'Appium..."
                             pkill -f appium || true
                             sleep 2
+                            
+                            echo "Démarrage du serveur Appium..."
                             appium --log appium.log --relaxed-security > /dev/null 2>&1 &
+                            
+                            echo "Attente du démarrage du serveur..."
                             sleep 10
+                            
+                            echo "État du serveur..."
                             if curl -s http://localhost:4723/status | grep -q "ready"; then
                                 echo "✅ Serveur Appium démarré avec succès"
                             else
                                 echo "❌ Échec du démarrage du serveur Appium"
+                                cat appium.log
                                 exit 1
+                            fi
+                            
+                            if [ "${PLATFORM}" = "Android" ]; then
+                                echo "📱 Vérification de l'Appareil Android"
+                                adb devices
+                                
+                                if ! adb devices | grep -q "device$"; then
+                                    echo "❌ Aucun appareil connecté!"
+                                    exit 1
+                                fi
+                                echo "✅ Connexion à l'appareil Android réussie"
                             fi
                         '''
                     } catch (Exception e) {
                         echo "❌ Erreur de Démarrage Appium: ${e.message}"
+                        sh 'cat appium.log || true'
                         throw e
                     }
                 }
@@ -110,12 +158,14 @@ pipeline {
                 script {
                     try {
                         def platformName = params.PLATFORM.toLowerCase()
+                        
                         echo "📂 Creating Test Directories..."
                         sh """
                             rm -rf target/cucumber-reports target/allure-results || true
                             mkdir -p target/cucumber-reports
                             mkdir -p target/allure-results
                         """
+
                         if (platformName == 'ios') {
                             echo "🍎 Running iOS Tests..."
                             sh """
@@ -127,41 +177,36 @@ pipeline {
                             sh """
                                 mvn clean test -DplatformName=android
                             """
+                        } else {
+                            echo "🌐 Running Web Tests..."
+                            sh """
+                                mvn clean test -DplatformName=web
+                            """
                         }
-                        echo "📊 Checking Test Results:";
-                        // ... existing code ...
+
+                        echo "📊 Checking Test Results:"
+                        sh """
+                            echo "Cucumber Reports:"
+                            ls -la target/cucumber-reports/ || true
+                            echo "Allure Results:"
+                            ls -la target/allure-results/ || true
+                        """
                     } catch (Exception e) {
-                        echo "⚠️ Test Error:" 
-                        echo "Error Message: ${e.message}"
-                        echo "Platform: ${params.PLATFORM}"
-                        echo "Build: ${BUILD_NUMBER}"
-                        currentBuild.result = 'FAILURE'
-                        error "Testler başarısız oldu, pipeline durduruluyor."
+                        echo """
+                            ⚠️ Test Error:
+                            Error Message: ${e.message}
+                            Stack Trace: ${e.printStackTrace()}
+                            Platform: ${params.PLATFORM}
+                            Build: ${BUILD_NUMBER}
+                        """
+                        currentBuild.result = 'UNSTABLE'
+                        error("Test execution error: ${e.message}")
                     }
                 }
             }
             options {
                 timeout(time: 30, unit: 'MINUTES')
                 retry(2)
-            }
-        }
-
-        stage('Build') {
-            steps {
-                echo "Build stage is not implemented yet"
-            }
-        }
-
-        stage('Test') {
-            steps {
-                // Video kaydını başlat
-                sh 'ffmpeg -f x11grab -s 1920x1080 -i :0.0 -r 30 -vcodec libx264 output.mp4 &'
-                
-                // Testleri çalıştır
-                sh 'mvn clean test -DplatformName=android -Dcucumber.filter.tags="@smoke" -s /path/to/your/settings.xml'
-                
-                // Video kaydını durdur
-                sh 'pkill ffmpeg'
             }
         }
     }
@@ -228,11 +273,13 @@ pipeline {
                 // Archiver les rapports Allure
                 archiveArtifacts artifacts: 'target/allure-results/**/*.*,target/allure-report/**/*.*', fingerprint: true
 
-                echo "📊 Résultats des Tests:"
-                echo "📱 Plateforme: ${params.PLATFORM}"
-                echo "🌿 Branche: ${env.BRANCH_NAME ?: 'unknown'}"
-                echo "🏗️ État: ${currentBuild.currentResult}"
-                echo "ℹ️ Note: Les tests marqués @known_issue sont signalés comme des avertissements"
+                echo """
+                    📊 Résultats des Tests:
+                    📱 Plateforme: ${params.PLATFORM}
+                    🌿 Branche: ${env.BRANCH_NAME ?: 'unknown'}
+                    🏗️ État: ${currentBuild.currentResult}
+                    ℹ️ Note: Les tests marqués @known_issue sont signalés comme des avertissements
+                """
             }
         }
         cleanup {
