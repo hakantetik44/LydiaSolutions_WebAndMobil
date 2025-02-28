@@ -111,7 +111,7 @@ pipeline {
                     try {
                         sh 'obs --startrecording &'
                         // Testleri çalıştır
-                        sh 'mvn clean test -DplatformName=android -Dcucumber.filter.tags="@smoke" -s settings.xml'
+                        sh 'mvn clean test -DplatformName=android -Dcucumber.filter.tags="@smoke" -s /path/to/your/settings.xml'
                         sh 'obs --stoprecording'
                     } catch (Exception e) {
                         echo "⚠️ Test Error:" 
@@ -140,7 +140,7 @@ pipeline {
                 sh 'ffmpeg -f x11grab -s 1920x1080 -i :0.0 -r 30 -vcodec libx264 output.mp4 &'
                 
                 // Testleri çalıştır
-                sh 'mvn clean test -DplatformName=android -Dcucumber.filter.tags="@smoke" -s settings.xml'
+                sh 'mvn clean test -DplatformName=android -Dcucumber.filter.tags="@smoke" -s /path/to/your/settings.xml'
                 
                 // Video kaydını durdur
                 sh 'pkill ffmpeg'
