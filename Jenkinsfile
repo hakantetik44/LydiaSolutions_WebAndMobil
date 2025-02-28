@@ -109,50 +109,17 @@ pipeline {
             steps {
                 script {
                     try {
-                        // OBS Studio ile video kaydını başlat
                         sh 'obs --startrecording &'
-
-                        def platformName = params.PLATFORM.toLowerCase()
-                        echo "📂 Creating Test Directories..."
-                        sh """
-                            rm -rf target/cucumber-reports target/allure-results || true
-                            mkdir -p target/cucumber-reports
-                            mkdir -p target/allure-results
-                        """
-
-                        if (platformName == 'ios') {
-                            echo "🍎 Running iOS Tests..."
-                            sh """
-                                cd ${WORKSPACE}
-                                mvn clean test -DplatformName=ios
-                            """
-                        } else if (platformName == 'android') {
-                            echo "🤖 Running Android Tests..."
-                            sh """
-                                mvn clean test -DplatformName=android
-                            """
-                        } else {
-                            echo "🌐 Running Web Tests..."
-                            sh """
-                                mvn clean test -DplatformName=web
-                            """
-                        }
-
-                        // Video kaydını durdur
+                        // Testleri çalıştır
+                        sh 'mvn clean test -DplatformName=android -Dcucumber.filter.tags="@smoke" -s settings.xml'
                         sh 'obs --stoprecording'
-
-                        echo "📊 Checking Test Results:" 
-                        sh """
-                            echo "Cucumber Reports:" 
-                            ls -la target/cucumber-reports/ || true
-                            echo "Allure Results:" 
-                            ls -la target/allure-results/ || true
-                        """
                     } catch (Exception e) {
                         echo "⚠️ Test Error:" 
                         echo "Error Message: ${e.message}"
                         echo "Platform: ${params.PLATFORM}"
                         echo "Build: ${BUILD_NUMBER}"
+                        currentBuild.result = 'FAILURE'
+                        error "Testler başarısız oldu, pipeline durduruluyor."
                     }
                 }
             }
@@ -173,7 +140,7 @@ pipeline {
                 sh 'ffmpeg -f x11grab -s 1920x1080 -i :0.0 -r 30 -vcodec libx264 output.mp4 &'
                 
                 // Testleri çalıştır
-                sh 'mvn clean test -DplatformName=android -Dcucumber.filter.tags="@smoke"'
+                sh 'mvn clean test -DplatformName=android -Dcucumber.filter.tags="@smoke" -s settings.xml'
                 
                 // Video kaydını durdur
                 sh 'pkill ffmpeg'
