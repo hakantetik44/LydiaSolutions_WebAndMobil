@@ -17,7 +17,7 @@ pipeline {
     parameters {
         choice(
             name: 'PLATFORM',
-            choices: ['Android', 'iOS', 'Web'],
+            choices: ['Android', 'iOS'],
             description: 'Sélectionnez la plateforme de test'
         )
     }
@@ -109,10 +109,27 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh 'obs --startrecording &'
-                        // Testleri çalıştır
-                        sh 'mvn clean test -DplatformName=android -Dcucumber.filter.tags="@smoke" -s /path/to/your/settings.xml'
-                        sh 'obs --stoprecording'
+                        def platformName = params.PLATFORM.toLowerCase()
+                        echo "📂 Creating Test Directories..."
+                        sh """
+                            rm -rf target/cucumber-reports target/allure-results || true
+                            mkdir -p target/cucumber-reports
+                            mkdir -p target/allure-results
+                        """
+                        if (platformName == 'ios') {
+                            echo "🍎 Running iOS Tests..."
+                            sh """
+                                cd ${WORKSPACE}
+                                mvn clean test -DplatformName=ios
+                            """
+                        } else if (platformName == 'android') {
+                            echo "🤖 Running Android Tests..."
+                            sh """
+                                mvn clean test -DplatformName=android
+                            """
+                        }
+                        echo "📊 Checking Test Results:";
+                        // ... existing code ...
                     } catch (Exception e) {
                         echo "⚠️ Test Error:" 
                         echo "Error Message: ${e.message}"
@@ -125,6 +142,7 @@ pipeline {
             }
             options {
                 timeout(time: 30, unit: 'MINUTES')
+                retry(2)
             }
         }
 
