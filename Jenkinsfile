@@ -213,7 +213,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                // Projeyi derleme adımları
+                echo "Build stage is not implemented yet"
             }
         }
 
