@@ -199,7 +199,7 @@ pipeline {
                     } catch (Exception e) {
                         echo "⚠️ Test Error:" 
                         echo "Error Message: ${e.message}"
-                        Stack Trace: ${e.printStackTrace()}
+                        e.printStackTrace()
                         Platform: ${params.PLATFORM}
                         Build: ${BUILD_NUMBER}
                     }
