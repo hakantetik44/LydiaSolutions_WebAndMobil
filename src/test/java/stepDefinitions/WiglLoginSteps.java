@@ -10,12 +10,21 @@ import utils.Driver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.time.Duration;
+import java.util.Random;
 
 public class WiglLoginSteps {
     private WiglLoginPage loginPage;
+    private String generatedEmail;
 
     public WiglLoginSteps() {
         loginPage = new WiglLoginPage();
+    }
+
+    private String generateRandomEmail() {
+        Random random = new Random();
+        long timestamp = System.currentTimeMillis();
+        String randomString = String.format("%04d", random.nextInt(10000));
+        return "test.wigl" + timestamp + randomString + "@gmail.com";
     }
 
     @Given("l'application Wigl est lancée")
@@ -54,7 +63,12 @@ public class WiglLoginSteps {
 
     @When("l'utilisateur saisit l'email {string} et le mot de passe {string}")
     public void lUtilisateurSaisitEmailEtMotDePasse(String email, String password) {
-        loginPage.login(email, password);
+        // Générer un nouvel email aléatoire
+        generatedEmail = generateRandomEmail();
+        System.out.println("Utilisation de l'email généré: " + generatedEmail);
+        
+        // Utiliser l'email généré au lieu de celui fourni dans le scénario
+        loginPage.login(generatedEmail, password);
     }
 
     @And("l'utilisateur appuie sur le bouton de connexion")

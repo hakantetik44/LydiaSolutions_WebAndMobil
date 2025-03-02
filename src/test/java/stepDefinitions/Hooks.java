@@ -11,6 +11,8 @@ import org.openqa.selenium.WebDriver;
 import utils.ConfigReader;
 import utils.Driver;
 import java.io.IOException;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
 public class Hooks {
     private Scenario scenario;
@@ -34,6 +36,19 @@ public class Hooks {
         System.out.println("\n=== Nouveau Scénario Commence: " + newName + " ===");
         System.out.println("Plateforme: " + platform);
         
+        // Forcer la fermeture de toute instance précédente
+        forceCloseApp();
+        
+        // S'assurer que le driver est fermé avant de démarrer un nouveau scénario
+        Driver.closeDriver();
+        
+        // Attendre un peu pour s'assurer que tout est bien fermé
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+        
         // Démarrer l'application pour ce scénario
         startApplication();
 
@@ -45,6 +60,42 @@ public class Hooks {
                 "Langue: Français\n" +
                 "Framework de test: Cucumber\n" +
                 "Horodatage: " + java.time.Instant.now());
+    }
+
+    private void forceCloseApp() {
+        if (platform.equals("android")) {
+            try {
+                String appPackage = ConfigReader.getProperty("android.app.package");
+                System.out.println("Tentative de fermeture forcée de l'application Android: " + appPackage);
+                
+                // Exécuter la commande adb pour forcer l'arrêt de l'application
+                Process process = Runtime.getRuntime().exec(new String[]{"adb", "shell", "am", "force-stop", appPackage});
+                int exitCode = process.waitFor();
+                
+                if (exitCode == 0) {
+                    System.out.println("Application Android fermée avec succès via ADB");
+                } else {
+                    System.err.println("Échec de la fermeture de l'application Android via ADB, code de sortie: " + exitCode);
+                    
+                    // Lire la sortie d'erreur pour le débogage
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        System.err.println("ADB Error: " + line);
+                    }
+                }
+                
+                // Attendre un peu après la fermeture forcée
+                Thread.sleep(1000);
+                
+            } catch (Exception e) {
+                System.err.println("Erreur lors de la tentative de fermeture forcée de l'application Android: " + e.getMessage());
+                e.printStackTrace();
+            }
+        } else if (platform.equals("ios")) {
+            // Pour iOS, on pourrait utiliser xcrun simctl ou idevicedebug si nécessaire
+            System.out.println("Fermeture forcée de l'application iOS non implémentée");
+        }
     }
 
     private void startApplication() {
@@ -62,7 +113,7 @@ public class Hooks {
             System.out.println("Driver créé avec succès: " + platform);
             
             // Attendre que l'application soit prête
-            Thread.sleep(2000);
+            Thread.sleep(3000);
             
         } catch (Exception e) {
             String errorMsg = String.format("Erreur lors du démarrage (%s): %s", platform, e.getMessage());
@@ -108,6 +159,10 @@ public class Hooks {
         } finally {
             // Forcer la fermeture de l'application
             System.out.println("Fermeture forcée de l'application...");
+            
+            // Fermer l'application via ADB pour Android
+            forceCloseApp();
+            
             try {
                 WebDriver driver = Driver.getDriver();
                 if (driver != null) {
@@ -116,7 +171,17 @@ public class Hooks {
             } catch (Exception e) {
                 System.err.println("Erreur lors de la fermeture du driver: " + e.getMessage());
             }
+            
+            // S'assurer que le driver est complètement fermé et réinitialisé
             Driver.closeDriver();
+            
+            // Attendre un peu pour s'assurer que l'application est bien fermée
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+            
             System.out.println("Application fermée avec succès.\n");
         }
     }

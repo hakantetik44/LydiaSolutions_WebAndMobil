@@ -21,22 +21,25 @@ public class WiglLoginPage extends BasePage {
         super(Driver.getDriver());
     }
 
-    private By getEmailInput() {
+    public By getEmailInput() {
         return OS.isAndroid() ?
-                AppiumBy.xpath("//android.widget.EditText[@resource-id='email-input']") :
+                AppiumBy.xpath("//android.widget.EditText[@resource-id='text-input-flat']") :
                 AppiumBy.xpath("//XCUIElementTypeTextField[@name='email-input']");
     }
 
     private By getPasswordInput() {
         return OS.isAndroid() ?
-                AppiumBy.xpath("//android.widget.EditText[@resource-id='password-input']") :
+                AppiumBy.xpath("//android.widget.EditText[@password='true' and @resource-id='text-input-flat']") :
                 AppiumBy.xpath("//XCUIElementTypeSecureTextField[@name='password-input']");
     }
 
     private By getLoginButton() {
-        return OS.isAndroid() ?
-                AppiumBy.xpath("//android.widget.Button[@text='Login']") :
-                AppiumBy.xpath("//XCUIElementTypeButton[@name='Login']");
+        if (OS.isAndroid()) {
+            // Utiliser le locator exact fourni
+            return AppiumBy.xpath("//android.widget.TextView[@text='Log in' and @class='android.widget.TextView' and @package='com.bps.wigl']");
+        } else {
+            return AppiumBy.xpath("//XCUIElementTypeButton[contains(@name, 'Login') or contains(@name, 'Connexion') or contains(@name, 'login')]");
+        }
     }
 
     private By getCashbackAmount() {
@@ -88,21 +91,136 @@ public class WiglLoginPage extends BasePage {
 
     public void login(String email, String password) {
         System.out.println("Saisie de l'email: " + email);
-        WebElement emailField = driver.findElement(getEmailInput());
-        emailField.click();
-        emailField.clear();
-        emailField.sendKeys(email);
-        hideKeyboard();
+        try {
+            // Trouver et cliquer sur le bouton de connexion en premier
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+            WebElement loginButton = wait.until(ExpectedConditions.presenceOfElementLocated(getLoginButton()));
+            
+            if (OS.isAndroid()) {
+                try {
+                    // Essayer de cliquer directement
+                    loginButton.click();
+                } catch (Exception e) {
+                    try {
+                        // Si le clic direct échoue, essayer via les coordonnées
+                        Point location = loginButton.getLocation();
+                        new org.openqa.selenium.interactions.Actions(driver)
+                            .moveToElement(loginButton)
+                            .click()
+                            .perform();
+                    } catch (Exception e2) {
+                        // Si le clic par coordonnées échoue, essayer un clic JavaScript
+                        ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("arguments[0].click();", loginButton);
+                    }
+                }
+            } else {
+                loginButton.click();
+            }
+            System.out.println("Bouton de connexion cliqué avec succès");
+            
+            // Attendre un peu après le clic
+            Thread.sleep(1000);
+            
+            // Continuer avec la saisie de l'email
+            WebElement emailField = driver.findElement(getEmailInput());
+            emailField.click();
+            emailField.clear();
+            emailField.sendKeys(email);
+            hideKeyboard();
+            System.out.println("Email saisi avec succès");
+        } catch (Exception e) {
+            System.out.println("Erreur lors de la saisie de l'email: " + e.getMessage());
+            throw new RuntimeException("Échec de la saisie de l'email", e);
+        }
 
         System.out.println("Saisie du mot de passe: " + password);
-        WebElement passwordField = driver.findElement(getPasswordInput());
-        passwordField.click();
-        passwordField.clear();
-        passwordField.sendKeys(password);
-        hideKeyboard();
+        try {
+            WebElement passwordField = driver.findElement(getPasswordInput());
+            passwordField.click();
+            passwordField.clear();
+            passwordField.sendKeys(password);
+            hideKeyboard();
+            System.out.println("Mot de passe saisi avec succès");
+        } catch (Exception e) {
+            System.out.println("Erreur lors de la saisie du mot de passe: " + e.getMessage());
+            throw new RuntimeException("Échec de la saisie du mot de passe", e);
+        }
 
         System.out.println("Clic sur le bouton de connexion");
-        driver.findElement(getLoginButton()).click();
+        try {
+            // Attendre que le bouton soit présent avec un timeout plus court
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+            WebElement loginButton = wait.until(ExpectedConditions.presenceOfElementLocated(getLoginButton()));
+            
+            // Si le bouton n'est pas cliquable directement, essayer de cliquer via les coordonnées
+            if (OS.isAndroid()) {
+                try {
+                    Point location = loginButton.getLocation();
+                    new org.openqa.selenium.interactions.Actions(driver)
+                        .moveToElement(loginButton)
+                        .click()
+                        .perform();
+                } catch (Exception e) {
+                    // Si le clic par coordonnées échoue, essayer un clic JavaScript
+                    ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("arguments[0].click();", loginButton);
+                }
+            } else {
+                loginButton.click();
+            }
+            
+            System.out.println("Bouton de connexion cliqué avec succès");
+        } catch (Exception e) {
+            System.out.println("Erreur lors du clic sur le bouton de connexion: " + e.getMessage());
+            throw new RuntimeException("Impossible de cliquer sur le bouton de connexion", e);
+        }
+    }
+
+    // Méthode pour faire défiler jusqu'à un point spécifique
+    private void scrollToPoint(int x, int y) {
+        try {
+            int screenHeight = driver.manage().window().getSize().getHeight();
+            int screenWidth = driver.manage().window().getSize().getWidth();
+            
+            // Si le point est en dehors de l'écran visible, faire défiler
+            if (y > screenHeight * 0.8) {
+                System.out.println("Défilement vers le bouton de connexion");
+                
+                // Utiliser les actions W3C pour faire défiler
+                org.openqa.selenium.interactions.PointerInput finger = 
+                    new org.openqa.selenium.interactions.PointerInput(
+                        org.openqa.selenium.interactions.PointerInput.Kind.TOUCH, "finger");
+                
+                org.openqa.selenium.interactions.Sequence swipe = 
+                    new org.openqa.selenium.interactions.Sequence(finger, 0);
+                
+                // Calculer les points de départ et d'arrivée pour le défilement
+                int startX = screenWidth / 2;
+                int startY = (int) (screenHeight * 0.7);
+                int endY = (int) (screenHeight * 0.3);
+                
+                swipe.addAction(finger.createPointerMove(
+                    Duration.ZERO, 
+                    org.openqa.selenium.interactions.PointerInput.Origin.viewport(), 
+                    startX, startY));
+                swipe.addAction(finger.createPointerDown(org.openqa.selenium.interactions.PointerInput.MouseButton.LEFT.asArg()));
+                swipe.addAction(finger.createPointerMove(
+                    Duration.ofMillis(600), 
+                    org.openqa.selenium.interactions.PointerInput.Origin.viewport(), 
+                    startX, endY));
+                swipe.addAction(finger.createPointerUp(org.openqa.selenium.interactions.PointerInput.MouseButton.LEFT.asArg()));
+                
+                ((org.openqa.selenium.remote.RemoteWebDriver) driver).perform(java.util.Collections.singletonList(swipe));
+                
+                // Attendre que l'animation de défilement soit terminée
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Erreur lors du défilement vers le bouton: " + e.getMessage());
+        }
     }
 
     public String getCashbackValue() {
