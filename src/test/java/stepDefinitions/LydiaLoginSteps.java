@@ -31,6 +31,19 @@ public class WiglLoginSteps {
     public void lApplicationWiglEstLancee() {
         Assert.assertNotNull("Le driver devrait être initialisé", Driver.getDriver());
         System.out.println("Application Wigl lancée avec succès");
+
+        try {
+            // 1. Cliquer sur "Besoin d'aide ?"
+            loginPage.clickBesoinAide();
+            System.out.println("Bouton 'Besoin d'aide ?' cliqué avec succès au lancement");
+
+            // 2. Compléter le formulaire d'aide
+            Thread.sleep(1000); // Attendre que la page soit chargée
+            loginPage.completeHelpForm();
+            System.out.println("Formulaire d'aide complété avec succès");
+        } catch (Exception e) {
+            System.out.println("Erreur lors du processus d'aide: " + e.getMessage());
+        }
     }
 
     @Then("l'utilisateur devrait voir les éléments de la page d'accueil")
@@ -45,7 +58,7 @@ public class WiglLoginSteps {
     public void lUtilisateurVoitLesOptionsDeLangue() {
         // First drag up the create account text to reveal language options
         loginPage.dragCreateAccountTextUp();
-        
+
         // Wait for language toggle button to be visible and clickable
         WebDriverWait wait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(20));
         Assert.assertTrue("Les options de langue devraient être visibles", loginPage.areLanguageOptionsDisplayed());
@@ -66,7 +79,7 @@ public class WiglLoginSteps {
         // Générer un nouvel email aléatoire
         generatedEmail = generateRandomEmail();
         System.out.println("Utilisation de l'email généré: " + generatedEmail);
-        
+
         // Utiliser l'email généré au lieu de celui fourni dans le scénario
         loginPage.login(generatedEmail, password);
     }
@@ -105,4 +118,4 @@ public class WiglLoginSteps {
         System.out.println("Message d'erreur attendu: " + expectedError);
         // TODO: Implement error message verification once the locator is added to WiglLoginPage
     }
-} 
+}

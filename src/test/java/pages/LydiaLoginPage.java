@@ -5,40 +5,35 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import utils.OS;
 import utils.Driver;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-import org.openqa.selenium.remote.RemoteWebElement;
-import java.util.Collections;
-import com.google.common.collect.ImmutableMap;
+
 import org.openqa.selenium.Point;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
-public class WiglLoginPage extends BasePage {
+public class LydiaLoginPage extends BasePage {
 
-    public WiglLoginPage() {
+    public LydiaLoginPage() {
         super(Driver.getDriver());
     }
 
     public By getEmailInput() {
         return OS.isAndroid() ?
                 AppiumBy.xpath("//android.widget.EditText[@resource-id='text-input-flat']") :
-                AppiumBy.xpath("//XCUIElementTypeTextField[@name='email-input']");
+                AppiumBy.xpath("//XCUIElementTypeTextField");
     }
 
     private By getPasswordInput() {
         return OS.isAndroid() ?
                 AppiumBy.xpath("//android.widget.EditText[@password='true' and @resource-id='text-input-flat']") :
-                AppiumBy.xpath("//XCUIElementTypeSecureTextField[@name='password-input']");
+                AppiumBy.xpath("//XCUIElementTypeSecureTextField");
     }
 
     private By getLoginButton() {
         if (OS.isAndroid()) {
-            // Utiliser le locator exact fourni
             return AppiumBy.xpath("//android.widget.TextView[@text='Log in' and @class='android.widget.TextView' and @package='com.bps.wigl']");
         } else {
-            return AppiumBy.xpath("//XCUIElementTypeButton[contains(@name, 'Login') or contains(@name, 'Connexion') or contains(@name, 'login')]");
+            return AppiumBy.xpath("//XCUIElementTypeButton[contains(@label, 'Login') or contains(@label, 'Connexion') or contains(@label, 'Sign in')]");
         }
     }
 
@@ -57,20 +52,20 @@ public class WiglLoginPage extends BasePage {
     public By getCreateAccountText() {
         return OS.isAndroid() ?
                 AppiumBy.xpath("//android.widget.TextView[contains(@text, 'Create your account')]") :
-                AppiumBy.xpath("//XCUIElementTypeStaticText[contains(@name, 'Create your account')]");
+                AppiumBy.xpath("//XCUIElementTypeStaticText[contains(@label, 'Create') or contains(@label, 'account')]");
     }
 
     public By getLanguageOptionsContainer() {
         return OS.isAndroid() ?
                 AppiumBy.xpath("//android.view.ViewGroup[contains(@resource-id, 'language-container')]") :
-                AppiumBy.xpath("//XCUIElementTypeOther[contains(@name, 'language-container')]");
+                AppiumBy.xpath("//XCUIElementTypeOther[contains(@label, 'language') or contains(@label, 'langue')]");
     }
 
     public By getLanguageOption(String language) {
         String text = language.equals("Français") ? "FR" : "EN";
         return OS.isAndroid() ?
                 AppiumBy.xpath(String.format("//android.widget.TextView[@text='%s']", text)) :
-                AppiumBy.xpath(String.format("//XCUIElementTypeStaticText[@name='%s']", text));
+                AppiumBy.xpath(String.format("//XCUIElementTypeStaticText[@label='%s']", text));
     }
 
     public By getFrenchLanguageIndicator() {
@@ -87,6 +82,117 @@ public class WiglLoginPage extends BasePage {
             // Pour iOS, nous gardons la logique existante
             return driver.findElement(By.xpath("//XCUIElementTypeButton[@name='language-toggle-button']"));
         }
+    }
+
+    private By getSessionButton() {
+        return OS.isAndroid() ?
+                AppiumBy.xpath("//android.widget.Button[contains(@text, 'Session')]") :
+                AppiumBy.xpath("//XCUIElementTypeButton[contains(@label, 'Session')]");
+    }
+
+    public By getBesoinAideButton() {
+        return OS.isAndroid() ?
+                AppiumBy.xpath("//android.widget.TextView[@text='Besoin d'aide ?']") :
+                AppiumBy.iOSClassChain("**/XCUIElementTypeButton[`name == \"Besoin d'aide ?\"`]");
+    }
+
+    public By getProblemeConnexionButton() {
+        return OS.isAndroid() ?
+                AppiumBy.xpath("//android.widget.TextView[contains(@text, 'Un problème pour vous connecter')]") :
+                AppiumBy.iOSClassChain("**/XCUIElementTypeStaticText[`name == \"Un problème pour vous connecter ?\"`]");
+    }
+
+    public By getNumeroTelephoneInput() {
+        return OS.isAndroid() ?
+                AppiumBy.xpath("//android.widget.EditText[@text='06 12 34 56 78']") :
+                AppiumBy.iOSClassChain("**/XCUIElementTypeTextField[`value == \"06 12 34 56 78\"`]");
+    }
+
+    public By getEmailInput() {
+        return OS.isAndroid() ?
+                AppiumBy.xpath("//android.widget.EditText[@text='e-mail@exemple.fr']") :
+                AppiumBy.iOSClassChain("**/XCUIElementTypeTextField[`value == \"e-mail@exemple.fr\"`]");
+    }
+
+    public By getEnvoyerButton() {
+        return OS.isAndroid() ?
+                AppiumBy.xpath("//android.widget.Button[contains(@text, 'Envoyer')]") :
+                AppiumBy.accessibilityId("arrow orientation up size thic");
+    }
+                AppiumBy.iOSClassChain("**/XCUIElementTypeStaticText[`name == \"Un problème pour vous connecter ?\"`]");
+    }
+
+    private By getPhoneInputField() {
+        return OS.isAndroid() ?
+                AppiumBy.xpath("//android.widget.EditText[contains(@text, '06 12 34 56 78')]") :
+                AppiumBy.iOSClassChain("**/XCUIElementTypeTextField[`value == \"06 12 34 56 78\"`]");
+    }
+
+    private By getEmailHelpField() {
+        return OS.isAndroid() ?
+                AppiumBy.xpath("//android.widget.EditText[contains(@text, 'e-mail@exemple.fr')]") :
+                AppiumBy.iOSClassChain("**/XCUIElementTypeTextField[`value == \"e-mail@exemple.fr\"`]");
+    }
+
+    private By getAccesCompteButton() {
+        return OS.isAndroid() ?
+                AppiumBy.xpath("//android.widget.TextView[contains(@text, \"Je n'arrive pas à accéder à mon compte\")]") :
+                AppiumBy.iOSClassChain("**/XCUIElementTypeStaticText[`name == \"Je n'arrive pas à accéder à mon compte\"`]");
+    }
+
+    private By getServiceClientButton() {
+        return OS.isAndroid() ?
+                AppiumBy.xpath("//android.widget.TextView[contains(@text, 'Écrire au service client')]") :
+                AppiumBy.iOSClassChain("**/XCUIElementTypeStaticText[`name == \"Écrire au service client\"`]");
+    }
+
+    private By getSendButton() {
+        return OS.isAndroid() ?
+                AppiumBy.xpath("//android.widget.Button[contains(@content-desc, 'arrow orientation up')]") :
+                AppiumBy.iOSClassChain("**/XCUIElementTypeButton[`name == \"arrow orientation up size thic\"`]");
+    }
+
+    private By getBesoinAideHelpText() {
+        return OS.isAndroid() ?
+                AppiumBy.xpath("//android.widget.TextView[@text='Besoin d'aide ?']") :
+                AppiumBy.iOSClassChain("**/XCUIElementTypeStaticText[`name == \"Besoin d'aide ?\"`]");
+    }
+
+    public void clickBesoinAide() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement button = wait.until(ExpectedConditions.elementToBeClickable(getBesoinAideButton()));
+        button.click();
+        System.out.println("Clic sur Besoin d'aide effectué");
+    }
+
+    public void clickProblemeConnexion() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement button = wait.until(ExpectedConditions.elementToBeClickable(getProblemeConnexionButton()));
+        button.click();
+        System.out.println("Clic sur Un problème pour vous connecter effectué");
+    }
+
+    public void saisirNumeroTelephone(String numero) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement input = wait.until(ExpectedConditions.elementToBeClickable(getNumeroTelephoneInput()));
+        input.clear();
+        input.sendKeys(numero);
+        System.out.println("Numéro de téléphone saisi : " + numero);
+    }
+
+    public void saisirEmail(String email) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement input = wait.until(ExpectedConditions.elementToBeClickable(getEmailInput()));
+        input.clear();
+        input.sendKeys(email);
+        System.out.println("Email saisi : " + email);
+    }
+
+    public void clickEnvoyer() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement button = wait.until(ExpectedConditions.elementToBeClickable(getEnvoyerButton()));
+        button.click();
+        System.out.println("Clic sur Envoyer effectué");
     }
 
     public void login(String email, String password) {
@@ -384,4 +490,42 @@ public class WiglLoginPage extends BasePage {
             throw new RuntimeException("Échec du défilement du texte de bienvenue vers le haut", e);
         }
     }
-} 
+
+    public void completeHelpForm() {
+        try {
+            System.out.println("Début du processus d'aide Lydia");
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+            // 1. Attendre et cliquer sur "Un problème pour vous connecter"
+            WebElement problemeConnexion = wait.until(ExpectedConditions.elementToBeClickable(getProblemeConnexionText()));
+            problemeConnexion.click();
+            System.out.println("Cliqué sur 'Un problème pour vous connecter'");
+            Thread.sleep(1000);
+
+            // 2. Saisir le numéro de téléphone français
+            WebElement phoneField = wait.until(ExpectedConditions.elementToBeClickable(getPhoneInputField()));
+            phoneField.click();
+            phoneField.clear();
+            phoneField.sendKeys("06 12 34 56 78");
+            hideKeyboard();
+            System.out.println("Numéro de téléphone saisi");
+
+            // 3. Saisir l'email Lydia
+            WebElement emailField = wait.until(ExpectedConditions.elementToBeClickable(getEmailHelpField()));
+            emailField.click();
+            emailField.clear();
+            emailField.sendKeys("support@lydia-app.com");
+            hideKeyboard();
+            System.out.println("Email Lydia saisi");
+
+            // 4. Cliquer sur "Je n'arrive pas à accéder à mon compte"
+            WebElement accesCompteButton = wait.until(ExpectedConditions.elementToBeClickable(getAccesCompteButton()));
+            accesCompteButton.click();
+            System.out.println("Cliqué sur 'Je n'arrive pas à accéder à mon compte'");
+
+        } catch (Exception e) {
+            System.out.println("Erreur lors du processus d'aide Lydia: " + e.getMessage());
+            throw new RuntimeException("Échec du processus d'aide Lydia", e);
+        }
+    }
+}

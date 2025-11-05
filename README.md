@@ -1,18 +1,31 @@
 <div align="center">
 
-# 💎 WIGL 💰
-*Finance & Crypto Made Simple*
+<img src="src/test/resources/images/lydia-logo.svg" alt="Lydia Logo" width="400"/>
 
-# 🌟 Tests E2E Web & Mobile Wigl
+# 🌟 Framework de Test E2E Lydia Mobile
+*La Solution de Paiement Mobile Leader en France - Depuis 2013*
 
-[![Tests](https://img.shields.io/badge/Tests-Passing-success?style=for-the-badge&logo=github)](https://github.com/hakantetik44/WiglMobile_E2E)
-[![Selenium](https://img.shields.io/badge/Selenium-4.0-green?style=for-the-badge&logo=selenium)](https://www.selenium.dev)
+</div>
+
+## 🏢 À propos de Lydia
+
+Créée en 2013, Lydia Solutions est devenue la référence du paiement mobile en France. Avec plus de 7 millions d'utilisateurs, notre fintech française révolutionne les transactions entre particuliers et propose une expérience bancaire innovante.
+
+### 🚀 Notre Mission
+Créer une expérience bancaire moderne et intuitive, en commençant par simplifier les paiements entre amis et la gestion des cagnottes.
+
+### 📱 Nos Applications
+- **Lydia** : Application dédiée aux remboursements entre amis et aux cagnottes
+- **Sumeria** : Notre nouvelle solution bancaire innovante
+
+[![Tests](https://img.shields.io/badge/Tests-Passing-success?style=for-the-badge&logo=github)](https://github.com/LydiaSolutions/LydiaMobile_E2E)
 [![Appium](https://img.shields.io/badge/Appium-2.0-purple?style=for-the-badge&logo=appium)](https://appium.io)
 [![Cucumber](https://img.shields.io/badge/Cucumber-BDD-brightgreen?style=for-the-badge&logo=cucumber)](https://cucumber.io)
 [![Java](https://img.shields.io/badge/Java-17-orange?style=for-the-badge&logo=java)](https://www.java.com)
 [![Maven](https://img.shields.io/badge/Maven-3.8-red?style=for-the-badge&logo=apache-maven)](https://maven.apache.org)
+[![XCUITest](https://img.shields.io/badge/XCUITest-iOS-blue?style=for-the-badge&logo=apple)](https://developer.apple.com/documentation/xctest)
 
-*Framework for automated testing of Wigl web and mobile applications*
+*Framework pour l'automatisation des tests mobiles de l'application Lydia*
 
 [📱 About](#-about) •
 [🚀 Installation](#-installation) •
@@ -23,13 +36,85 @@
 
 </div>
 
-## 💫 About
-End-to-end testing framework for the Wigl application. This automated test suite validates the proper functioning of:
-- 🌐 The responsive web application
-- 📱 The Android and iOS mobile applications
-- 🔄 Data synchronization between platforms
-- 🎮 Gaming and rewards features
-- 💰 Cashback and loyalty points system
+## 🏗️ Architecture du Framework
+
+### 📐 Pattern de Conception
+Ce framework utilise le **Page Object Model (POM)** avec une architecture en couches :
+
+```
+src/
+├── test/
+│   ├── java/
+│   │   ├── pages/           # Page Objects
+│   │   │   ├── BasePage.java    # Classe de base avec méthodes communes
+│   │   │   └── *Page.java       # Pages spécifiques
+│   │   ├── steps/           # Step Definitions Cucumber
+│   │   ├── runners/         # Test Runners
+│   │   └── utils/           # Classes utilitaires
+│   │       ├── Driver.java      # Gestionnaire de driver
+│   │       └── OS.java          # Utilitaire pour la gestion cross-platform
+│   └── resources/
+│       ├── features/        # Fichiers features Cucumber
+│       └── config/          # Fichiers de configuration
+```
+
+### 🛠️ Composants Clés
+
+#### 🔄 OS.java
+Classe utilitaire cruciale pour la gestion cross-platform :
+- Détection automatique de la plateforme (iOS/Android)
+- Configuration spécifique par plateforme
+- Gestion des localisateurs adaptés
+
+#### 📱 BasePage.java
+Classe fondamentale contenant :
+- Méthodes communes de manipulation d'éléments
+- Gestion des attentes (explicit/implicit waits)
+- Actions gestuelles (swipe, scroll, etc.)
+- Gestion du clavier virtuel
+
+#### 🎭 Page Objects
+Implémentation du POM avec :
+- Encapsulation des localisateurs
+- Méthodes d'action spécifiques
+- Vérifications métier
+
+### 🔄 CI/CD Pipeline
+Integration continue via Jenkins :
+```groovy
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                sh 'mvn clean'
+            }
+        }
+        stage('Test') {
+            parallel {
+                stage('Android') {
+                    steps {
+                        sh 'mvn test -DplatformName=android'
+                    }
+                }
+                stage('iOS') {
+                    steps {
+                        sh 'mvn test -DplatformName=ios'
+                    }
+                }
+            }
+        }
+        stage('Report') {
+            steps {
+                allure([
+                    includeProperties: false,
+                    reportBuildPolicy: 'ALWAYS',
+                    results: [[path: 'target/allure-results']]
+                ])
+            }
+        }
+    }
+}
 
 ## ⚡ Technologies Used
 - 🌐 **Selenium**: Automated web testing
@@ -39,6 +124,40 @@ End-to-end testing framework for the Wigl application. This automated test suite
 - 🎯 **Maven**: Dependency management
 - 🧪 **JUnit**: Testing framework
 - 📊 **Allure**: Test reporting
+
+## 🔧 Technologies et Méthodologies
+
+### 💻 Stack Technique
+- **Langage** : Java
+- **Framework de Test** : 
+  - Appium 2.0
+  - Cucumber
+  - JUnit
+- **Outils** :
+  - Maven (Build et Dépendances)
+  - Allure (Reporting)
+  - XCode & Android Studio
+
+### 🔄 Process d'Automatisation
+1. **Structure du Framework**
+   - Page Object Model (POM)
+   - Base Page avec méthodes communes
+   - Utils pour gestion cross-platform (iOS/Android)
+
+2. **Implémentation**
+   - Scénarios Cucumber en Gherkin
+   - Step Definitions en Java
+   - Page Objects pour chaque écran
+
+3. **Exécution**
+   - Tests iOS via XCUITest
+   - Tests Android via UiAutomator2
+   - Gestion des environnements via properties
+
+4. **Reporting**
+   - Rapports détaillés Allure
+   - Screenshots automatiques
+   - Logs d'exécution
 
 ## 📋 Prerequisites
 
@@ -84,8 +203,8 @@ android.platform.name=Android
 android.platform.version=11
 android.device.name=sdk_gphone_x86
 android.udid=emulator-5554
-android.app.package=com.bps.wigl
-android.app.activity=com.bps.wigl.MainActivity
+android.app.package=com.lydia
+android.app.activity=com.lydia.MainActivity
 android.no.reset=true
 android.auto.grant.permissions=true
 android.automation.name=UiAutomator2
@@ -198,7 +317,12 @@ Allure reports are automatically generated in `target/allure-results` and includ
 - Quality metrics
 - Execution history
 
-To view the reports:
+Pour exécuter les tests et générer/ouvrir automatiquement le rapport Allure :
+```bash
+mvn clean test -DplatformName=ios && allure generate target/allure-results -o target/allure-report --clean && allure open target/allure-report
+```
+
+Ou utilisez la méthode traditionnelle pour voir les rapports existants :
 ```bash
 allure serve target/allure-results
 ```
@@ -226,16 +350,17 @@ The project can be integrated with CI/CD systems like Jenkins for automated test
 5. 🔍 Open a Pull Request
 
 ## 📞 Contact
-- 🌐 **Website**: [www.wigl.fr](https://wigl.fr)
-- 📧 **Email**: contact@wigl.fr
+- 🌐 **Site Web**: [www.lydia-app.com](https://www.lydia-app.com)
+- 📧 **Email**: support@lydia-app.com
 
 <div align="center">
 
 ---
 
-# 💎 WIGL 💰
-*Finance & Crypto Made Simple*
+# 💳 LYDIA 💰
+*Le Paiement Mobile Simplifié*
 
-*Developed with ❤️ by the Wigl QA Team*
+*Développé avec ❤️ par l'équipe QA de Lydia*
 
 </div>
+# LydiaMobile_E2E
