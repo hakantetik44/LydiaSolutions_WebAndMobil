@@ -33,9 +33,9 @@ public class Hooks {
         Allure.label("platform", platform);
         Allure.description("Plateforme de test: " + platform.toUpperCase() + "\n" + newName);
         
-        System.out.println("\n=== Nouveau Scénario Commence: " + newName + " ===");
-        System.out.println("Plateforme: " + platform);
-        
+        System.out.println("\n🎬 === Nouveau Scénario Commence: " + newName + " ===");
+        System.out.println("📱 Plateforme: " + platform);
+
         // Forcer la fermeture de toute instance précédente
         forceCloseApp();
         
@@ -100,23 +100,23 @@ public class Hooks {
 
     private void startApplication() {
         try {
-            System.out.println("Démarrage de l'application pour le scénario - Plateforme: " + platform);
-            
+            System.out.println("🚀 Démarrage de l'application pour le scénario - Plateforme: " + platform);
+
             WebDriver driver = Driver.getDriver();
             if (driver == null) {
-                throw new RuntimeException("Impossible de démarrer le driver - Plateforme: " + platform);
+                throw new RuntimeException("❌ Impossible de démarrer le driver - Plateforme: " + platform);
             }
             
-            scenario.log("Application démarrée avec succès: " + platform.toUpperCase());
-            Allure.step("Application démarrée: " + platform.toUpperCase());
-            
-            System.out.println("Driver créé avec succès: " + platform);
-            
+            scenario.log("✅ Application démarrée avec succès: " + platform.toUpperCase());
+            Allure.step("✅ Application démarrée: " + platform.toUpperCase());
+
+            System.out.println("✅ Driver créé avec succès: " + platform);
+
             // Attendre que l'application soit prête
             Thread.sleep(3000);
             
         } catch (Exception e) {
-            String errorMsg = String.format("Erreur lors du démarrage (%s): %s", platform, e.getMessage());
+            String errorMsg = String.format("❌ Erreur lors du démarrage (%s): %s", platform, e.getMessage());
             System.err.println(errorMsg);
             e.printStackTrace();
             scenario.log(errorMsg);
@@ -150,10 +150,10 @@ public class Hooks {
                 }
             }
             
-            String resultatTest = scenario.isFailed() ? "ÉCHEC" : "RÉUSSITE";
-            System.out.println(String.format("\n=== Scénario Terminé: %s ===", scenario.getName()));
-            System.out.println(String.format("Résultat: %s", resultatTest));
-            
+            String resultatTest = scenario.isFailed() ? "❌ ÉCHEC" : "✅ RÉUSSITE";
+            System.out.println(String.format("\n🏁 === Scénario Terminé: %s ===", scenario.getName()));
+            System.out.println(String.format("📊 Résultat: %s", resultatTest));
+
             scenario.log(String.format("Test terminé - Plateforme: %s, Résultat: %s", platform.toUpperCase(), resultatTest));
             Allure.step(String.format("Test terminé - Plateforme: %s, Résultat: %s", platform.toUpperCase(), resultatTest));
         } finally {

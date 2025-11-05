@@ -197,11 +197,11 @@ public class BasePage {
     // Méthode pour attendre et cliquer avec log
     protected void clickWithLog(By locator, String elementName) {
         try {
-            System.out.println("Tentative de clic sur " + elementName);
+            System.out.println("🔍 Tentative de clic sur " + elementName);
             click(locator);
-            System.out.println("Clic réussi sur " + elementName);
+            System.out.println("✅ Clic réussi sur " + elementName);
         } catch (Exception e) {
-            System.out.println("Erreur lors du clic sur " + elementName + " : " + e.getMessage());
+            System.out.println("❌ Erreur lors du clic sur " + elementName + " : " + e.getMessage());
             throw e;
         }
     }
@@ -209,12 +209,12 @@ public class BasePage {
     // Méthode pour saisir du texte avec log
     protected void sendKeysWithLog(By locator, String text, String fieldName) {
         try {
-            System.out.println("Saisie de '" + text + "' dans " + fieldName);
+            System.out.println("⌨️  Saisie de '" + text + "' dans " + fieldName);
             sendKeys(locator, text);
             hideKeyboard();
-            System.out.println("Saisie réussie dans " + fieldName);
+            System.out.println("✅ Saisie réussie dans " + fieldName);
         } catch (Exception e) {
-            System.out.println("Erreur lors de la saisie dans " + fieldName + " : " + e.getMessage());
+            System.out.println("❌ Erreur lors de la saisie dans " + fieldName + " : " + e.getMessage());
             throw e;
         }
     }

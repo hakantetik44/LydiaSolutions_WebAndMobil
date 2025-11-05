@@ -159,16 +159,32 @@ pipeline {
       steps {
         script {
           def p = params.PLATFORM.toLowerCase()
+
+          echo "════════════════════════════════════════════════"
+          echo "🧪 STARTING TESTS FOR PLATFORM: ${p.toUpperCase()}"
+          echo "════════════════════════════════════════════════"
+
+          def testResult = 0
+
           if (p == 'ios') {
-            echo 'Running iOS tests'
-            sh 'mvn -B -DplatformName=ios clean test'
+            echo '📱 Running iOS tests...'
+            testResult = sh(returnStatus: true, script: 'mvn -B -DplatformName=ios clean test')
           } else if (p == 'android') {
-            echo 'Running Android tests'
-            sh 'mvn -B -DplatformName=android clean test'
+            echo '🤖 Running Android tests...'
+            testResult = sh(returnStatus: true, script: 'mvn -B -DplatformName=android clean test')
           } else {
-            echo 'Running Web tests'
-            sh 'mvn -B -DplatformName=web clean test'
+            echo '🌐 Running Web tests...'
+            testResult = sh(returnStatus: true, script: 'mvn -B -DplatformName=web clean test')
           }
+
+          echo "════════════════════════════════════════════════"
+          if (testResult == 0) {
+            echo "✅ TESTS PASSED SUCCESSFULLY!"
+          } else {
+            echo "❌ TESTS FAILED - Check logs above"
+            currentBuild.result = 'UNSTABLE'
+          }
+          echo "════════════════════════════════════════════════"
         }
       }
     }
@@ -177,44 +193,107 @@ pipeline {
   post {
     always {
       script {
+        echo "════════════════════════════════════════════════"
+        echo "🏁 POST-BUILD ACTIONS"
+        echo "════════════════════════════════════════════════"
+
         // Stop Appium server if it was started
         echo "🛑 Stopping Appium server..."
         sh '''
           if [ -f appium.pid ]; then
             kill $(cat appium.pid) 2>/dev/null || true
             rm appium.pid
+            echo "✅ Appium server stopped"
           fi
           pkill -f appium || true
         '''
 
         sh '''
-          echo "📂 Listing target folder"
+          echo "📂 Listing target folder contents:"
           ls -la target || true
         '''
 
+        // Archive artifacts
+        echo "📦 Archiving test artifacts..."
         archiveArtifacts artifacts: 'target/**/*', allowEmptyArchive: true
+
+        // Publish JUnit results
+        echo "📊 Publishing JUnit test results..."
         junit testResults: 'target/surefire-reports/**/*.xml', allowEmptyResults: true
 
-        // Try to generate Allure report if CLI is present
+        // Generate and display Allure report
         sh '''
+          echo "════════════════════════════════════════════════"
           if [ -d target/allure-results ]; then
+            echo "📊 GENERATING ALLURE REPORT..."
+
+            # Count results
+            RESULT_COUNT=$(ls -1 target/allure-results/*-result.json 2>/dev/null | wc -l | xargs)
+            echo "📝 Found ${RESULT_COUNT} test result(s)"
+
             if command -v allure >/dev/null 2>&1; then
-              echo "📊 Generating Allure report..."
+              echo "✅ Allure CLI found, generating report..."
               allure generate target/allure-results --clean -o target/allure-report || true
+
+              if [ -d target/allure-report ]; then
+                echo "✅ Allure report generated successfully!"
+                echo "📁 Report location: target/allure-report/index.html"
+
+                # Try to open the report automatically
+                if [ -f target/allure-report/index.html ]; then
+                  echo "🌐 Opening Allure report in browser..."
+                  open target/allure-report/index.html 2>/dev/null || echo "⚠️ Could not auto-open browser"
+                fi
+              else
+                echo "❌ Failed to generate Allure report"
+              fi
             else
-              echo "⚠️ Allure CLI not found, skipping generate"
+              echo "⚠️ Allure CLI not found"
+              echo "💡 Install with: brew install allure"
+              echo "📄 Raw results available in: target/allure-results/"
             fi
           else
             echo "ℹ️ No allure-results found"
           fi
+          echo "════════════════════════════════════════════════"
         '''
 
-        echo "✅ Pipeline finished. Platform: ${params.PLATFORM}."
+        // Display test summary
+        echo "════════════════════════════════════════════════"
+        echo "📋 TEST EXECUTION SUMMARY"
+        echo "════════════════════════════════════════════════"
+        echo "🎯 Platform: ${params.PLATFORM}"
+        echo "📊 Build Status: ${currentBuild.result ?: 'SUCCESS'}"
+        echo "⏱️ Duration: ${currentBuild.durationString}"
+        echo "════════════════════════════════════════════════"
+
+        if (currentBuild.result == 'SUCCESS' || currentBuild.result == null) {
+          echo "✅✅✅ ALL TESTS PASSED! ✅✅✅"
+        } else if (currentBuild.result == 'UNSTABLE') {
+          echo "⚠️⚠️⚠️ TESTS COMPLETED WITH FAILURES ⚠️⚠️⚠️"
+        } else {
+          echo "❌❌❌ BUILD FAILED ❌❌❌"
+        }
+        echo "════════════════════════════════════════════════"
       }
     }
 
+    success {
+      echo "🎉🎉🎉 PIPELINE COMPLETED SUCCESSFULLY! 🎉🎉🎉"
+    }
+
+    unstable {
+      echo "⚠️ PIPELINE COMPLETED BUT SOME TESTS FAILED"
+    }
+
+    failure {
+      echo "❌ PIPELINE FAILED"
+    }
+
     cleanup {
+      echo "🧹 Cleaning workspace..."
       cleanWs()
+      echo "✅ Cleanup complete"
     }
   }
 }

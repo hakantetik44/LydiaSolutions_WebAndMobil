@@ -58,7 +58,7 @@ public class LydiaLoginPage extends BasePage {
 
     public void saisirEmail(String email) {
         sendKeys(getEmailInput(), email);
-        System.out.println("Saisi de l'email : " + email);
+        System.out.println("✅ Saisi de l'email : " + email);
     }
 
     public void clickEnvoyer() {

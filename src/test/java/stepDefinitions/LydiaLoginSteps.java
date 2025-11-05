@@ -23,7 +23,7 @@ public class LydiaLoginSteps {
     @Given("l'application Lydia est lancée")
     public void lApplicationLydiaEstLancee() {
         Assert.assertNotNull("Le driver devrait être initialisé", Driver.getDriver());
-        System.out.println("Application Lydia lancée avec succès");
+        System.out.println("✅ Application Lydia lancée avec succès");
         wait.until(ExpectedConditions.elementToBeClickable(loginPage.getBesoinAideButton()));
     }
 
@@ -41,23 +41,26 @@ public class LydiaLoginSteps {
             default:
                 throw new IllegalArgumentException("Bouton non reconnu : " + bouton);
         }
-        System.out.println("Clic sur le bouton : " + bouton);
+        System.out.println("✅ Clic sur le bouton : " + bouton);
     }
 
     @And("l'utilisateur saisit le numéro {string}")
     public void lUtilisateurSaisitLeNumero(String numero) {
         wait.until(ExpectedConditions.elementToBeClickable(loginPage.getNumeroTelephoneInput()));
         loginPage.saisirNumeroTelephone(numero);
+        System.out.println("✅ Numéro de téléphone saisi : " + numero);
     }
 
     @And("l'utilisateur saisit l'email {string}")
     public void lUtilisateurSaisitEmail(String email) {
         loginPage.saisirEmail(email);
+        System.out.println("✅ Email saisi : " + email);
     }
 
     @Then("l'utilisateur envoie la demande d'aide")
     public void lUtilisateurEnvoieLaDemandeDaide() {
         wait.until(ExpectedConditions.elementToBeClickable(loginPage.getEnvoyerButton()));
         loginPage.clickEnvoyer();
+        System.out.println("✅ Demande d'aide envoyée avec succès");
     }
 }
