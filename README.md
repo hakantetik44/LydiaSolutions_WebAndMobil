@@ -42,20 +42,91 @@ Créer une expérience bancaire moderne et intuitive, en commençant par simplif
 Ce framework utilise le **Page Object Model (POM)** avec une architecture en couches :
 
 ```
-src/
-├── test/
-│   ├── java/
-│   │   ├── pages/           # Page Objects
-│   │   │   ├── BasePage.java    # Classe de base avec méthodes communes
-│   │   │   └── *Page.java       # Pages spécifiques
-│   │   ├── steps/           # Step Definitions Cucumber
-│   │   ├── runners/         # Test Runners
-│   │   └── utils/           # Classes utilitaires
-│   │       ├── Driver.java      # Gestionnaire de driver
-│   │       └── OS.java          # Utilitaire pour la gestion cross-platform
-│   └── resources/
-│       ├── features/        # Fichiers features Cucumber
-│       └── config/          # Fichiers de configuration
+├── pom.xml                  # Configuration Maven et dépendances
+└── src/
+    └── test/
+        ├── java/
+        │   ├── pages/           # Page Objects
+        │   │   ├── BasePage.java          # Classe de base avec méthodes communes
+        │   │   ├── LydiaLoginPage.java    # Page de connexion Lydia
+        │   │   └── LydiaHelpPage.java     # Page d'aide Lydia
+        │   │
+        │   ├── steps/           # Step Definitions Cucumber
+        │   │   ├── Hooks.java             # Configuration avant/après tests
+        │   │   │   ├── @Before : Configuration du driver
+        │   │   │   └── @After  : Nettoyage et screenshots
+        │   │   │
+        │   │   └── LydiaLoginSteps.java   # Steps de login
+        │   │       ├── @Given  : Conditions initiales
+        │   │       ├── @When   : Actions utilisateur
+        │   │       └── @Then   : Vérifications
+        │   │
+        │   ├── runners/         # Test Runners
+        │   │   ├── CukesRunner.java       # Runner principal
+        │   │   │   ├── @RunWith(Cucumber.class)
+        │   │   │   └── @CucumberOptions(
+        │   │   │       features = "src/test/resources/features",
+        │   │   │       glue = "steps",
+        │   │   │       tags = "@ios or @android",
+        │   │   │       plugin = {"io.qameta.allure.cucumber7.AllureCucumber7Jvm"}
+        │   │   │     )
+        │   │   │
+        │   │   └── FailedTestRunner.java  # Relance des tests échoués
+        │   │
+        │   └── utils/           # Classes utilitaires
+        │       ├── Driver.java          # Factory de driver Appium
+        │       ├── OS.java              # Gestion iOS/Android
+        │       └── ConfigReader.java    # Lecture des properties
+        │
+        └── resources/
+            ├── features/        # Fichiers features Cucumber
+            │   └── lydia_login.feature    # Scénarios BDD
+            │       ├── @ios     : Tests iOS
+            │       └── @android : Tests Android
+            │
+            └── config/
+                └── configuration.properties # Configuration du framework
+```
+
+#### 📦 pom.xml - Dépendances Principales
+```xml
+<properties>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <cucumber.version>7.14.0</cucumber.version>
+    <appium.version>9.3.0</appium.version>
+    <allure.version>2.24.0</allure.version>
+</properties>
+
+<dependencies>
+    <!-- Appium -->
+    <dependency>
+        <groupId>io.appium</groupId>
+        <artifactId>java-client</artifactId>
+        <version>${appium.version}</version>
+    </dependency>
+
+    <!-- Cucumber -->
+    <dependency>
+        <groupId>io.cucumber</groupId>
+        <artifactId>cucumber-java</artifactId>
+        <version>${cucumber.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>io.cucumber</groupId>
+        <artifactId>cucumber-junit</artifactId>
+        <version>${cucumber.version}</version>
+    </dependency>
+
+    <!-- Allure Reports -->
+    <dependency>
+        <groupId>io.qameta.allure</groupId>
+        <artifactId>allure-cucumber7-jvm</artifactId>
+        <version>${allure.version}</version>
+    </dependency>
+</dependencies>
+```
 ```
 
 ### 🛠️ Composants Clés
