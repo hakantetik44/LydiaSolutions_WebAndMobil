@@ -211,6 +211,9 @@ pipeline {
         sh '''
           echo "📂 Listing target folder contents:"
           ls -la target || true
+          echo ""
+          echo "📊 Allure results files:"
+          ls -la target/allure-results/ || echo "No allure-results folder"
         '''
 
         // Archive artifacts
@@ -221,42 +224,15 @@ pipeline {
         echo "📊 Publishing JUnit test results..."
         junit testResults: 'target/surefire-reports/**/*.xml', allowEmptyResults: true
 
-        // Generate and display Allure report
-        sh '''
-          echo "════════════════════════════════════════════════"
-          if [ -d target/allure-results ]; then
-            echo "📊 GENERATING ALLURE REPORT..."
-
-            # Count results
-            RESULT_COUNT=$(ls -1 target/allure-results/*-result.json 2>/dev/null | wc -l | xargs)
-            echo "📝 Found ${RESULT_COUNT} test result(s)"
-
-            if command -v allure >/dev/null 2>&1; then
-              echo "✅ Allure CLI found, generating report..."
-              allure generate target/allure-results --clean -o target/allure-report || true
-
-              if [ -d target/allure-report ]; then
-                echo "✅ Allure report generated successfully!"
-                echo "📁 Report location: target/allure-report/index.html"
-
-                # Try to open the report automatically
-                if [ -f target/allure-report/index.html ]; then
-                  echo "🌐 Opening Allure report in browser..."
-                  open target/allure-report/index.html 2>/dev/null || echo "⚠️ Could not auto-open browser"
-                fi
-              else
-                echo "❌ Failed to generate Allure report"
-              fi
-            else
-              echo "⚠️ Allure CLI not found"
-              echo "💡 Install with: brew install allure"
-              echo "📄 Raw results available in: target/allure-results/"
-            fi
-          else
-            echo "ℹ️ No allure-results found"
-          fi
-          echo "════════════════════════════════════════════════"
-        '''
+        // IMPORTANT: Use Jenkins Allure Plugin (not CLI)
+        echo "📊 Publishing Allure Report via Jenkins Plugin..."
+        allure([
+          includeProperties: false,
+          jdk: '',
+          properties: [],
+          reportBuildPolicy: 'ALWAYS',
+          results: [[path: 'target/allure-results']]
+        ])
 
         // Display test summary
         echo "════════════════════════════════════════════════"
