@@ -1,233 +1,221 @@
 package pages;
 
 import io.appium.java_client.AppiumBy;
-import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.PerformsTouchActions;
-import io.appium.java_client.TouchAction;
-import io.appium.java_client.touch.WaitOptions;
-import io.appium.java_client.touch.offset.PointOption;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.ios.IOSDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.time.Duration;
 import utils.OS;
-import com.google.common.collect.ImmutableMap;
-import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.Dimension;
-import java.util.HashMap;
 import java.util.Map;
-import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.android.AndroidTouchAction;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.interactions.Pause;
-import org.openqa.selenium.interactions.PointerInput;
-import org.openqa.selenium.interactions.Sequence;
-import java.util.Arrays;
+import java.util.HashMap;
 
 public class BasePage {
     protected WebDriver driver;
     protected WebDriverWait wait;
-    
+
     public BasePage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(15));
     }
 
-    protected By getLanguageSelectorButton() {
-        return OS.isAndroid() ?
-                AppiumBy.xpath("//android.view.ViewGroup[@content-desc='󰗊, English, 󰅀']") :
-                AppiumBy.xpath("//XCUIElementTypeOther[@name='Language Selector']");
+    // Méthodes communes pour attendre
+    protected WebElement waitForElement(By locator) {
+        return wait.until(ExpectedConditions.presenceOfElementLocated(locator));
     }
 
-    protected By getFrenchOption() {
-        return OS.isAndroid() ?
-                AppiumBy.xpath("//android.widget.TextView[@text='Français']") :
-                AppiumBy.xpath("//XCUIElementTypeStaticText[@name='Français']");
+    protected WebElement waitForClickable(By locator) {
+        return wait.until(ExpectedConditions.elementToBeClickable(locator));
     }
 
-    protected By getCloseButton() {
-        return OS.isAndroid() ?
-                AppiumBy.xpath("//android.widget.Button[@text='Close']") :
-                AppiumBy.xpath("//XCUIElementTypeButton[@name='Close']");
+    protected WebElement waitForVisible(By locator) {
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
-    public void scrollAndSelectLanguage() {
+    // Méthodes communes pour les actions
+    protected void click(By locator) {
+        waitForClickable(locator).click();
+    }
+
+    protected void click(WebElement element) {
+        wait.until(ExpectedConditions.elementToBeClickable(element)).click();
+    }
+
+    protected void sendKeys(By locator, String text) {
+        WebElement element = waitForVisible(locator);
+        element.clear();
+        element.sendKeys(text);
+    }
+
+    // Méthode pour faire défiler
+    protected void scroll(String direction) {
+        Dimension size = driver.manage().window().getSize();
+        int startX = size.getWidth() / 2;
+        int startY = (int) (size.getHeight() * 0.8);
+        int endY = (int) (size.getHeight() * 0.2);
+
+        if (direction.equals("down")) {
+            int temp = startY;
+            startY = endY;
+            endY = temp;
+        }
+
+        if (OS.isAndroid()) {
+            Map<String, Object> args = new HashMap<>();
+            args.put("startX", startX);
+            args.put("startY", startY);
+            args.put("endX", startX);
+            args.put("endY", endY);
+            args.put("duration", 1.0);
+            ((RemoteWebDriver) driver).executeScript("mobile: swipe", args);
+        } else {
+            Map<String, Object> params = new HashMap<>();
+            params.put("direction", direction);
+            ((RemoteWebDriver) driver).executeScript("mobile: scroll", params);
+        }
+    }
+
+    // Méthode pour vérifier si un élément est présent
+    protected boolean isElementPresent(By locator) {
         try {
-            // Attendre et cliquer sur le sélecteur de langue
-            WebElement languageSelector = wait.until(ExpectedConditions.elementToBeClickable(getLanguageSelectorButton()));
-            languageSelector.click();
-
-            // Attendre que l'option française soit visible et cliquer dessus
-            WebElement frenchOption = wait.until(ExpectedConditions.elementToBeClickable(getFrenchOption()));
-            frenchOption.click();
-
-            // Optionnel : Attendre et cliquer sur le bouton de fermeture si nécessaire
-            try {
-                WebElement closeButton = wait.until(ExpectedConditions.elementToBeClickable(getCloseButton()));
-                closeButton.click();
-            } catch (Exception e) {
-                System.out.println("Bouton de fermeture non trouvé ou non nécessaire : " + e.getMessage());
-            }
-
+            driver.findElement(locator);
+            return true;
         } catch (Exception e) {
-            System.out.println("Erreur lors de la sélection de la langue : " + e.getMessage());
+            return false;
+        }
+    }
+
+    // Méthode pour vérifier si un élément est visible
+    protected boolean isElementVisible(By locator) {
+        try {
+            return waitForVisible(locator).isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    // Méthode pour masquer le clavier
+    protected void hideKeyboard() {
+        try {
+            if (OS.isAndroid()) {
+                try {
+                    ((AndroidDriver) driver).hideKeyboard();
+                } catch (Exception e1) {
+                    driver.navigate().back();
+                }
+            } else {
+                try {
+                    ((IOSDriver) driver).hideKeyboard();
+                } catch (Exception e2) {
+                    try {
+                        By doneButton = AppiumBy.accessibilityId("Done");
+                        if (isElementPresent(doneButton)) {
+                            click(doneButton);
+                        } else {
+                            By tapPoint = AppiumBy.xpath("//XCUIElementTypeApplication");
+                            if (isElementPresent(tapPoint)) {
+                                click(tapPoint);
+                            }
+                        }
+                    } catch (Exception e3) {
+                        System.out.println("Impossible de masquer le clavier iOS : " + e3.getMessage());
+                    }
+                }
+            }
+            Thread.sleep(500); // Attendre que le clavier disparaisse
+        } catch (Exception e) {
+            System.out.println("Erreur lors de la tentative de masquage du clavier : " + e.getMessage());
+        }
+    }
+
+    // Méthode pour taper à des coordonnées spécifiques
+    protected void tapByCoordinates(Point point) {
+        Map<String, Object> args = new HashMap<>();
+        args.put("x", point.getX());
+        args.put("y", point.getY());
+        ((RemoteWebDriver) driver).executeScript("mobile: tap", args);
+    }
+
+    // Méthode pour attendre qu'un texte soit présent
+    protected boolean waitForText(String text, int timeoutInSeconds) {
+        try {
+            By textLocator = OS.isAndroid() ?
+                    AppiumBy.xpath("//*[@text='" + text + "']") :
+                    AppiumBy.xpath("//*[@label='" + text + "']");
+            return wait.until(ExpectedConditions.presenceOfElementLocated(textLocator)).isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    // Méthode pour effectuer une saisie rapide sans attente
+    protected void quickSendKeys(By locator, String text) {
+        try {
+            WebElement element = driver.findElement(locator);
+            element.click();
+            element.clear();
+            element.sendKeys(text);
+        } catch (Exception e) {
+            System.out.println("Erreur lors de la saisie rapide : " + e.getMessage());
+        }
+    }
+
+    // Méthode pour cliquer rapidement sans attente
+    protected void quickClick(By locator) {
+        try {
+            driver.findElement(locator).click();
+        } catch (Exception e) {
+            System.out.println("Erreur lors du clic rapide : " + e.getMessage());
+        }
+    }
+
+    // Méthode pour vérifier si un élément contient un texte
+    protected boolean elementContainsText(By locator, String text) {
+        try {
+            return driver.findElement(locator).getText().contains(text);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    // Méthode pour obtenir le texte d'un élément
+    protected String getElementText(By locator) {
+        try {
+            return waitForVisible(locator).getText();
+        } catch (Exception e) {
+            System.out.println("Erreur lors de la récupération du texte : " + e.getMessage());
+            return "";
+        }
+    }
+
+    // Méthode pour attendre et cliquer avec log
+    protected void clickWithLog(By locator, String elementName) {
+        try {
+            System.out.println("Tentative de clic sur " + elementName);
+            click(locator);
+            System.out.println("Clic réussi sur " + elementName);
+        } catch (Exception e) {
+            System.out.println("Erreur lors du clic sur " + elementName + " : " + e.getMessage());
             throw e;
         }
     }
 
-    public void performScroll(WebElement element, String direction) {
+    // Méthode pour saisir du texte avec log
+    protected void sendKeysWithLog(By locator, String text, String fieldName) {
         try {
-            if (OS.isAndroid()) {
-                Dimension dimension = driver.manage().window().getSize();
-                Point location = element.getLocation();
-                Dimension elementSize = element.getSize();
-                
-                int startX = location.getX() + elementSize.getWidth() / 2;
-                int startY = location.getY() + elementSize.getHeight() / 2;
-                int endY;
-                
-                if (direction.equals("up")) {
-                    endY = (int) (dimension.getHeight() * 0.3); // Défilement vers le haut jusqu'à 30% de la hauteur de l'écran
-                } else {
-                    endY = (int) (dimension.getHeight() * 0.7); // Défilement vers le bas jusqu'à 70% de la hauteur de l'écran
-                }
-                
-                TouchAction touch = new TouchAction((PerformsTouchActions) driver);
-                touch.press(PointOption.point(startX, startY))
-                    .waitAction(WaitOptions.waitOptions(Duration.ofSeconds(1)))
-                    .moveTo(PointOption.point(startX, endY))
-                    .release()
-                    .perform();
-                
-                Thread.sleep(1000); // Attendre l'animation
-            } else {
-                // Pour iOS, utiliser le geste de balayage existant
-                try {
-                    ((AppiumDriver) driver).executeScript(
-                        "mobile: swipe",
-                        ImmutableMap.of(
-                            "element", ((RemoteWebElement) element).getId(),
-                            "direction", direction,
-                            "velocity", 2000
-                        )
-                    );
-                } catch (Exception e) {
-                    // Solution de repli pour le balayage basé sur les coordonnées
-                    Dimension dimension = driver.manage().window().getSize();
-                    Point location = element.getLocation();
-                    Dimension elementSize = element.getSize();
-                    
-                    int startX = location.getX() + elementSize.getWidth() / 2;
-                    int startY = location.getY() + elementSize.getHeight() / 2;
-                    int endY = direction.equals("up") ? 
-                        (int) (dimension.getHeight() * 0.3) : 
-                        (int) (dimension.getHeight() * 0.7);
-                    
-                    ((AppiumDriver) driver).executeScript(
-                        "mobile: swipe",
-                        ImmutableMap.of(
-                            "fromX", startX,
-                            "fromY", startY,
-                            "toX", startX,
-                            "toY", endY,
-                            "velocity", 2000
-                        )
-                    );
-                }
-                Thread.sleep(1000); // Attendre l'animation
-            }
+            System.out.println("Saisie de '" + text + "' dans " + fieldName);
+            sendKeys(locator, text);
+            hideKeyboard();
+            System.out.println("Saisie réussie dans " + fieldName);
         } catch (Exception e) {
-            System.out.println("Erreur lors du défilement : " + e.getMessage());
-            throw new RuntimeException("Échec du défilement : " + e.getMessage(), e);
+            System.out.println("Erreur lors de la saisie dans " + fieldName + " : " + e.getMessage());
+            throw e;
         }
     }
-
-    private int calculateOffsetForUpAndDownScroll(int scrollAmount) {
-        Dimension dimension = driver.manage().window().getSize();
-        return ((scrollAmount * dimension.getHeight()) / 100);
-    }
-
-    public void scrollUp(WebElement element, int scrollPercentage) {
-        try {
-            Point location = element.getLocation();
-            Dimension size = element.getSize();
-            Dimension screenSize = driver.manage().window().getSize();
-            
-            int startX = location.getX() + size.getWidth() / 2;
-            int startY = location.getY() + size.getHeight() / 2;
-            int endY = startY - calculateOffsetForUpAndDownScroll(scrollPercentage);
-            
-            if (OS.isAndroid()) {
-                new AndroidTouchAction((AndroidDriver) driver)
-                    .press(io.appium.java_client.touch.offset.PointOption.point(startX, startY))
-                    .waitAction(io.appium.java_client.touch.WaitOptions.waitOptions(Duration.ofMillis(1000)))
-                    .moveTo(io.appium.java_client.touch.offset.PointOption.point(startX, endY))
-                    .release()
-                    .perform();
-            } else {
-                Map<String, Object> params = new HashMap<>();
-                params.put("duration", 1.0);
-                params.put("fromX", startX);
-                params.put("fromY", startY);
-                params.put("toX", startX);
-                params.put("toY", endY);
-                ((AppiumDriver) driver).executeScript("mobile: dragFromToForDuration", params);
-            }
-            
-            Thread.sleep(1500); // Attendre l'animation de défilement
-        } catch (Exception e) {
-            System.out.println("Erreur lors du défilement vers le haut : " + e.getMessage());
-            throw new RuntimeException("Échec du défilement vers le haut : " + e.getMessage());
-        }
-    }
-
-    public void scrollWiglTextUp() {
-        try {
-            // Trouver l'élément TextView spécifique
-            By wiglTextLocator = AppiumBy.xpath("//android.widget.TextView[@text=' on Wigl ✨']");
-            WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(wiglTextLocator));
-            
-            // Obtenir les limites de l'élément
-            String[] bounds = element.getAttribute("bounds").replace("][", ",").replace("[", "").replace("]", "").split(",");
-            int startX = (Integer.parseInt(bounds[0]) + Integer.parseInt(bounds[2])) / 2;
-            int startY = (Integer.parseInt(bounds[1]) + Integer.parseInt(bounds[3])) / 2;
-            
-            // Calculer le point final (défilement vers le haut de 70% de la hauteur de l'élément)
-            int endY = startY - (startY * 70 / 100);
-            
-            if (OS.isAndroid()) {
-                // Créer une source d'entrée tactile
-                PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
-                Sequence swipe = new Sequence(finger, 0);
-                
-                // Ajouter des interactions tactiles
-                swipe.addAction(finger.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), startX, startY));
-                swipe.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
-                swipe.addAction(new Pause(finger, Duration.ofMillis(200)));
-                swipe.addAction(finger.createPointerMove(Duration.ofMillis(1000), PointerInput.Origin.viewport(), startX, endY));
-                swipe.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
-                
-                // Exécuter l'action
-                ((AppiumDriver) driver).perform(Arrays.asList(swipe));
-            } else {
-                // Pour iOS
-                Map<String, Object> params = new HashMap<>();
-                params.put("duration", 1.0);
-                params.put("fromX", startX);
-                params.put("fromY", startY);
-                params.put("toX", startX);
-                params.put("toY", endY);
-                ((AppiumDriver) driver).executeScript("mobile: dragFromToForDuration", params);
-            }
-            
-            Thread.sleep(1500); // Attendre l'animation de défilement
-            
-        } catch (Exception e) {
-            System.out.println("Erreur lors du défilement du texte Wigl : " + e.getMessage());
-            throw new RuntimeException("Échec du défilement du texte Wigl : " + e.getMessage());
-        }
-    }
-} 
+}

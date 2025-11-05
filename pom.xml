@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.example</groupId>
-    <artifactId>WiglMobileE2E</artifactId>
+    <groupId>com.lydia</groupId>
+    <artifactId>LydiaMobile_E2E</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -285,7 +285,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <projectName>Wigl Mobile Tests</projectName>
+                            <projectName>Lydia Mobile Tests</projectName>
                             <outputDirectory>${project.build.directory}/cucumber-reports</outputDirectory>
                             <inputDirectory>${project.build.directory}/cucumber-reports</inputDirectory>
                             <jsonFiles>
@@ -300,6 +300,7 @@
             </plugin>
 
             <!-- Allure Maven Plugin -->
+            <!-- Allure Maven Plugin -->
             <plugin>
                 <groupId>io.qameta.allure</groupId>
                 <artifactId>allure-maven</artifactId>
@@ -311,13 +312,29 @@
                     <installDirectory>${project.build.directory}/allure-cli</installDirectory>
                 </configuration>
             </plugin>
+
+            <!-- Allure Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.12.1</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>3.4.5</version>
+            </plugin>
         </plugins>
     </build>
 
     <repositories>
         <repository>
-            <id>gitlab-maven</id>
-            <url>https://gitlab.com/api/v4/projects/56724067/packages/maven</url>
+            <id>central</id>
+            <url>https://repo.maven.apache.org/maven2</url>
+        </repository>
+        <repository>
+            <id>maven-central</id>
+            <url>https://central.maven.org/maven2/</url>
         </repository>
     </repositories>
 </project>
