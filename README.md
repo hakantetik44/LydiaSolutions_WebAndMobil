@@ -258,3 +258,4 @@ Le rapport inclut :
 
 </div>
 
+# LydiaMobile_E2E_TypeScript
