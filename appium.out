@@ -1,0 +1,519 @@
+[38;5;112m[Appium][0m Welcome to Appium v3.1.0 (REV bab86d5de571015b63fd8fc30b47bbe072a1290e)
+[38;5;112m[Appium][0m Non-default server args:
+[38;5;112m[Appium][0m { relaxedSecurityEnabled: [33mtrue[39m }
+[38;5;112m[Appium][0m Enabling relaxed security. All insecure features will be enabled unless explicitly disabled by --deny-insecure
+[38;5;112m[Appium][0m The autodetected Appium home path: /Users/macbook/.appium
+[38;5;112m[Appium][0m Attempting to load driver uiautomator2...
+[38;5;112m[Appium][0m Requiring driver at /Users/macbook/.appium/node_modules/appium-uiautomator2-driver/build/index.js
+[38;5;112m[Appium][0m AndroidUiautomator2Driver has been successfully loaded in 0.887s
+[38;5;112m[Appium][0m Appium REST http interface listener started on http://0.0.0.0:4723
+[38;5;112m[Appium][0m You can provide the following URLs in your client code to connect to this server:
+	http://127.0.0.1:4723/ (only accessible from the same host)
+	http://192.168.1.165:4723/
+[38;5;112m[Appium][0m Available drivers:
+[38;5;112m[Appium][0m   - uiautomator2@6.1.0 (automationName 'UiAutomator2')
+[38;5;112m[Appium][0m No plugins have been installed. Use the "appium plugin" command to install the one(s) you want to use.
+[38;5;86m[HTTP][0m [37m-->[39m [37mPOST[39m [37m/session[39m [90m{"capabilities":{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":"org.wikipedia.alpha","appium:appActivity":"org.wikipedia.DefaultIcon","appium:noReset":false,"appium:fullReset":false,"appium:autoGrantPermissions":true,"appium:adbExecTimeout":20000},"firstMatch":[{}]}}[39m
+[38;5;175m[AppiumDriver@0272][0m Calling AppiumDriver.createSession() with args: [{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":"org.wikipedia.alpha","appium:appActivity":"org.wikipedia.DefaultIcon","appium:noReset":false,"appium:fullReset":false,"appium:autoGrantPermissions":true,"appium:adbExecTimeout":20000},"firstMatch":[{}]},{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":"org.wikipedia.alpha","appium:appActivity":"org.wikipedia.DefaultIcon","appium:noReset":false,"appium:fullReset":false,"appium:autoGrantPermissions":true,"appium:adbExecTimeout":20000},"firstMatch":[{}]},{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":...
+[38;5;175m[AppiumDriver@0272][0m Event 'newSessionRequested' logged at 1762600777774 (12:19:37 GMT+0100 (Central European Standard Time))
+[38;5;112m[Appium][0m Attempting to find matching driver for automationName 'UiAutomator2' and platformName 'Android'
+[38;5;112m[Appium][0m The 'uiautomator2' driver was installed and matched caps.
+[38;5;112m[Appium][0m Will require it at /Users/macbook/.appium/node_modules/appium-uiautomator2-driver
+[38;5;112m[Appium][0m Requiring driver at /Users/macbook/.appium/node_modules/appium-uiautomator2-driver/build/index.js
+[38;5;175m[AppiumDriver@0272][0m Appium v3.1.0 creating new AndroidUiautomator2Driver (v6.1.0) session
+[38;5;175m[AppiumDriver@0272][0m Checking BaseDriver versions for Appium and AndroidUiautomator2Driver
+[38;5;175m[AppiumDriver@0272][0m Appium's BaseDriver version is 10.1.0
+[38;5;175m[AppiumDriver@0272][0m AndroidUiautomator2Driver's BaseDriver version is 10.1.0
+[38;5;175m[AppiumDriver@0272][0m Enabling relaxed security for this session as per the server configuration. All insecure features will be enabled unless explicitly disabled by --deny-insecure
+[38;5;-153m[AndroidUiautomator2Driver@f419][0m 
+[38;5;-153m[AndroidUiautomator2Driver@f419][0m Creating session with W3C capabilities: {
+  "alwaysMatch": {
+    "platformName": "Android",
+    "appium:deviceName": "sdk_gphone64_x86_64",
+    "appium:platformVersion": "16.0",
+    "appium:automationName": "UiAutomator2",
+    "appium:udid": "emulator-5554",
+    "appium:appPackage": "org.wikipedia.alpha",
+    "appium:appActivity": "org.wikipedia.DefaultIcon",
+    "appium:noReset": false,
+    "appium:fullReset": false,
+    "appium:autoGrantPermissions": true,
+    "appium:adbExecTimeout": 20000
+  },
+  "firstMatch": [
+    {}
+  ]
+}
+[38;5;98m[a8e7371b][0m[38;5;-153m[AndroidUiautomator2Driver@f419][0m Session created with session id: a8e7371b-c546-45c8-8c0d-fe25446d77aa
+[38;5;98m[a8e7371b][0m[38;5;-153m[AndroidUiautomator2Driver@f419][0m Deleting UiAutomator2 session
+[38;5;98m[a8e7371b][0m[38;5;175m[AppiumDriver@0272][0m Event 'newSessionStarted' logged at 1762600777800 (12:19:37 GMT+0100 (Central European Standard Time))
+[38;5;98m[a8e7371b][0m[38;5;175m[AppiumDriver@0272][0m Encountered internal error running command: Error: Neither ANDROID_HOME nor ANDROID_SDK_ROOT environment variable was exported. Read https://developer.android.com/studio/command-line/variables for more details
+    at requireSdkRoot (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-adb/lib/helpers.js:77:11)
+    at Function.createADB (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-adb/lib/adb.ts:131:39)
+    at createBaseADB (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-android-driver/lib/commands/device/utils.js:137:20)
+    at AndroidUiautomator2Driver.getDeviceInfoFromCaps (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-android-driver/lib/commands/device/common.js:29:34)
+    at AndroidUiautomator2Driver.createSession (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/lib/driver.ts:361:41)
+    at AppiumDriver.createSession (/Users/macbook/.nvm/versions/node/v20.19.5/lib/node_modules/appium/lib/appium.js:360:35)
+[38;5;98m[a8e7371b][0m[38;5;86m[HTTP][0m [37m<-- POST /session [39m[31m500[39m [90m78 ms - 1786[39m [90m[39m
+[38;5;86m[HTTP][0m [37m-->[39m [37mPOST[39m [37m/session[39m [90m{"capabilities":{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":"org.wikipedia.alpha","appium:appActivity":"org.wikipedia.DefaultIcon","appium:noReset":false,"appium:fullReset":false,"appium:autoGrantPermissions":true,"appium:adbExecTimeout":20000},"firstMatch":[{}]}}[39m
+[38;5;175m[AppiumDriver@0272][0m Calling AppiumDriver.createSession() with args: [{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":"org.wikipedia.alpha","appium:appActivity":"org.wikipedia.DefaultIcon","appium:noReset":false,"appium:fullReset":false,"appium:autoGrantPermissions":true,"appium:adbExecTimeout":20000},"firstMatch":[{}]},{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":"org.wikipedia.alpha","appium:appActivity":"org.wikipedia.DefaultIcon","appium:noReset":false,"appium:fullReset":false,"appium:autoGrantPermissions":true,"appium:adbExecTimeout":20000},"firstMatch":[{}]},{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":...
+[38;5;175m[AppiumDriver@0272][0m Event 'newSessionRequested' logged at 1762600777863 (12:19:37 GMT+0100 (Central European Standard Time))
+[38;5;112m[Appium][0m Attempting to find matching driver for automationName 'UiAutomator2' and platformName 'Android'
+[38;5;112m[Appium][0m The 'uiautomator2' driver was installed and matched caps.
+[38;5;112m[Appium][0m Will require it at /Users/macbook/.appium/node_modules/appium-uiautomator2-driver
+[38;5;112m[Appium][0m Requiring driver at /Users/macbook/.appium/node_modules/appium-uiautomator2-driver/build/index.js
+[38;5;175m[AppiumDriver@0272][0m Appium v3.1.0 creating new AndroidUiautomator2Driver (v6.1.0) session
+[38;5;175m[AppiumDriver@0272][0m Checking BaseDriver versions for Appium and AndroidUiautomator2Driver
+[38;5;175m[AppiumDriver@0272][0m Appium's BaseDriver version is 10.1.0
+[38;5;175m[AppiumDriver@0272][0m AndroidUiautomator2Driver's BaseDriver version is 10.1.0
+[38;5;175m[AppiumDriver@0272][0m Enabling relaxed security for this session as per the server configuration. All insecure features will be enabled unless explicitly disabled by --deny-insecure
+[38;5;-74m[AndroidUiautomator2Driver@f694][0m 
+[38;5;-74m[AndroidUiautomator2Driver@f694][0m Creating session with W3C capabilities: {
+  "alwaysMatch": {
+    "platformName": "Android",
+    "appium:deviceName": "sdk_gphone64_x86_64",
+    "appium:platformVersion": "16.0",
+    "appium:automationName": "UiAutomator2",
+    "appium:udid": "emulator-5554",
+    "appium:appPackage": "org.wikipedia.alpha",
+    "appium:appActivity": "org.wikipedia.DefaultIcon",
+    "appium:noReset": false,
+    "appium:fullReset": false,
+    "appium:autoGrantPermissions": true,
+    "appium:adbExecTimeout": 20000
+  },
+  "firstMatch": [
+    {}
+  ]
+}
+[38;5;147m[05296aff][0m[38;5;-74m[AndroidUiautomator2Driver@f694][0m Session created with session id: 05296aff-c701-4042-9716-ffc54fe1f5af
+[38;5;147m[05296aff][0m[38;5;-74m[AndroidUiautomator2Driver@f694][0m Deleting UiAutomator2 session
+[38;5;147m[05296aff][0m[38;5;175m[AppiumDriver@0272][0m Event 'newSessionStarted' logged at 1762600777875 (12:19:37 GMT+0100 (Central European Standard Time))
+[38;5;147m[05296aff][0m[38;5;175m[AppiumDriver@0272][0m Encountered internal error running command: Error: Neither ANDROID_HOME nor ANDROID_SDK_ROOT environment variable was exported. Read https://developer.android.com/studio/command-line/variables for more details
+    at requireSdkRoot (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-adb/lib/helpers.js:77:11)
+    at Function.createADB (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-adb/lib/adb.ts:131:39)
+    at createBaseADB (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-android-driver/lib/commands/device/utils.js:137:20)
+    at AndroidUiautomator2Driver.getDeviceInfoFromCaps (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-android-driver/lib/commands/device/common.js:29:34)
+    at AndroidUiautomator2Driver.createSession (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/lib/driver.ts:361:41)
+    at AppiumDriver.createSession (/Users/macbook/.nvm/versions/node/v20.19.5/lib/node_modules/appium/lib/appium.js:360:35)
+[38;5;147m[05296aff][0m[38;5;86m[HTTP][0m [37m<-- POST /session [39m[31m500[39m [90m15 ms - 1786[39m [90m[39m
+[38;5;86m[HTTP][0m [37m-->[39m [37mPOST[39m [37m/session[39m [90m{"capabilities":{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":"org.wikipedia.alpha","appium:appActivity":"org.wikipedia.DefaultIcon","appium:noReset":false,"appium:fullReset":false,"appium:autoGrantPermissions":true,"appium:adbExecTimeout":20000},"firstMatch":[{}]}}[39m
+[38;5;175m[AppiumDriver@0272][0m Calling AppiumDriver.createSession() with args: [{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":"org.wikipedia.alpha","appium:appActivity":"org.wikipedia.DefaultIcon","appium:noReset":false,"appium:fullReset":false,"appium:autoGrantPermissions":true,"appium:adbExecTimeout":20000},"firstMatch":[{}]},{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":"org.wikipedia.alpha","appium:appActivity":"org.wikipedia.DefaultIcon","appium:noReset":false,"appium:fullReset":false,"appium:autoGrantPermissions":true,"appium:adbExecTimeout":20000},"firstMatch":[{}]},{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":...
+[38;5;175m[AppiumDriver@0272][0m Event 'newSessionRequested' logged at 1762600778383 (12:19:38 GMT+0100 (Central European Standard Time))
+[38;5;112m[Appium][0m Attempting to find matching driver for automationName 'UiAutomator2' and platformName 'Android'
+[38;5;112m[Appium][0m The 'uiautomator2' driver was installed and matched caps.
+[38;5;112m[Appium][0m Will require it at /Users/macbook/.appium/node_modules/appium-uiautomator2-driver
+[38;5;112m[Appium][0m Requiring driver at /Users/macbook/.appium/node_modules/appium-uiautomator2-driver/build/index.js
+[38;5;175m[AppiumDriver@0272][0m Appium v3.1.0 creating new AndroidUiautomator2Driver (v6.1.0) session
+[38;5;175m[AppiumDriver@0272][0m Checking BaseDriver versions for Appium and AndroidUiautomator2Driver
+[38;5;175m[AppiumDriver@0272][0m Appium's BaseDriver version is 10.1.0
+[38;5;175m[AppiumDriver@0272][0m AndroidUiautomator2Driver's BaseDriver version is 10.1.0
+[38;5;175m[AppiumDriver@0272][0m Enabling relaxed security for this session as per the server configuration. All insecure features will be enabled unless explicitly disabled by --deny-insecure
+[38;5;-173m[AndroidUiautomator2Driver@02c5][0m 
+[38;5;-173m[AndroidUiautomator2Driver@02c5][0m Creating session with W3C capabilities: {
+  "alwaysMatch": {
+    "platformName": "Android",
+    "appium:deviceName": "sdk_gphone64_x86_64",
+    "appium:platformVersion": "16.0",
+    "appium:automationName": "UiAutomator2",
+    "appium:udid": "emulator-5554",
+    "appium:appPackage": "org.wikipedia.alpha",
+    "appium:appActivity": "org.wikipedia.DefaultIcon",
+    "appium:noReset": false,
+    "appium:fullReset": false,
+    "appium:autoGrantPermissions": true,
+    "appium:adbExecTimeout": 20000
+  },
+  "firstMatch": [
+    {}
+  ]
+}
+[38;5;31m[10347145][0m[38;5;-173m[AndroidUiautomator2Driver@02c5][0m Session created with session id: 10347145-4e28-46a4-923d-9bddf5ec08ce
+[38;5;31m[10347145][0m[38;5;-173m[AndroidUiautomator2Driver@02c5][0m Deleting UiAutomator2 session
+[38;5;31m[10347145][0m[38;5;175m[AppiumDriver@0272][0m Event 'newSessionStarted' logged at 1762600778394 (12:19:38 GMT+0100 (Central European Standard Time))
+[38;5;31m[10347145][0m[38;5;175m[AppiumDriver@0272][0m Encountered internal error running command: Error: Neither ANDROID_HOME nor ANDROID_SDK_ROOT environment variable was exported. Read https://developer.android.com/studio/command-line/variables for more details
+    at requireSdkRoot (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-adb/lib/helpers.js:77:11)
+    at Function.createADB (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-adb/lib/adb.ts:131:39)
+    at createBaseADB (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-android-driver/lib/commands/device/utils.js:137:20)
+    at AndroidUiautomator2Driver.getDeviceInfoFromCaps (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-android-driver/lib/commands/device/common.js:29:34)
+    at AndroidUiautomator2Driver.createSession (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/lib/driver.ts:361:41)
+    at AppiumDriver.createSession (/Users/macbook/.nvm/versions/node/v20.19.5/lib/node_modules/appium/lib/appium.js:360:35)
+[38;5;31m[10347145][0m[38;5;86m[HTTP][0m [37m<-- POST /session [39m[31m500[39m [90m14 ms - 1786[39m [90m[39m
+[38;5;86m[HTTP][0m [37m-->[39m [37mPOST[39m [37m/session[39m [90m{"capabilities":{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":"org.wikipedia.alpha","appium:appActivity":"org.wikipedia.DefaultIcon","appium:noReset":false,"appium:fullReset":false,"appium:autoGrantPermissions":true,"appium:adbExecTimeout":20000},"firstMatch":[{}]}}[39m
+[38;5;175m[AppiumDriver@0272][0m Calling AppiumDriver.createSession() with args: [{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":"org.wikipedia.alpha","appium:appActivity":"org.wikipedia.DefaultIcon","appium:noReset":false,"appium:fullReset":false,"appium:autoGrantPermissions":true,"appium:adbExecTimeout":20000},"firstMatch":[{}]},{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":"org.wikipedia.alpha","appium:appActivity":"org.wikipedia.DefaultIcon","appium:noReset":false,"appium:fullReset":false,"appium:autoGrantPermissions":true,"appium:adbExecTimeout":20000},"firstMatch":[{}]},{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":...
+[38;5;175m[AppiumDriver@0272][0m Event 'newSessionRequested' logged at 1762600779402 (12:19:39 GMT+0100 (Central European Standard Time))
+[38;5;112m[Appium][0m Attempting to find matching driver for automationName 'UiAutomator2' and platformName 'Android'
+[38;5;112m[Appium][0m The 'uiautomator2' driver was installed and matched caps.
+[38;5;112m[Appium][0m Will require it at /Users/macbook/.appium/node_modules/appium-uiautomator2-driver
+[38;5;112m[Appium][0m Requiring driver at /Users/macbook/.appium/node_modules/appium-uiautomator2-driver/build/index.js
+[38;5;175m[AppiumDriver@0272][0m Appium v3.1.0 creating new AndroidUiautomator2Driver (v6.1.0) session
+[38;5;175m[AppiumDriver@0272][0m Checking BaseDriver versions for Appium and AndroidUiautomator2Driver
+[38;5;175m[AppiumDriver@0272][0m Appium's BaseDriver version is 10.1.0
+[38;5;175m[AppiumDriver@0272][0m AndroidUiautomator2Driver's BaseDriver version is 10.1.0
+[38;5;175m[AppiumDriver@0272][0m Enabling relaxed security for this session as per the server configuration. All insecure features will be enabled unless explicitly disabled by --deny-insecure
+[38;5;-94m[AndroidUiautomator2Driver@373f][0m 
+[38;5;-94m[AndroidUiautomator2Driver@373f][0m Creating session with W3C capabilities: {
+  "alwaysMatch": {
+    "platformName": "Android",
+    "appium:deviceName": "sdk_gphone64_x86_64",
+    "appium:platformVersion": "16.0",
+    "appium:automationName": "UiAutomator2",
+    "appium:udid": "emulator-5554",
+    "appium:appPackage": "org.wikipedia.alpha",
+    "appium:appActivity": "org.wikipedia.DefaultIcon",
+    "appium:noReset": false,
+    "appium:fullReset": false,
+    "appium:autoGrantPermissions": true,
+    "appium:adbExecTimeout": 20000
+  },
+  "firstMatch": [
+    {}
+  ]
+}
+[38;5;152m[77c53b65][0m[38;5;-94m[AndroidUiautomator2Driver@373f][0m Session created with session id: 77c53b65-f1fc-4022-932a-a7419593cce1
+[38;5;152m[77c53b65][0m[38;5;-94m[AndroidUiautomator2Driver@373f][0m Deleting UiAutomator2 session
+[38;5;152m[77c53b65][0m[38;5;175m[AppiumDriver@0272][0m Event 'newSessionStarted' logged at 1762600779412 (12:19:39 GMT+0100 (Central European Standard Time))
+[38;5;152m[77c53b65][0m[38;5;175m[AppiumDriver@0272][0m Encountered internal error running command: Error: Neither ANDROID_HOME nor ANDROID_SDK_ROOT environment variable was exported. Read https://developer.android.com/studio/command-line/variables for more details
+    at requireSdkRoot (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-adb/lib/helpers.js:77:11)
+    at Function.createADB (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-adb/lib/adb.ts:131:39)
+    at createBaseADB (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-android-driver/lib/commands/device/utils.js:137:20)
+    at AndroidUiautomator2Driver.getDeviceInfoFromCaps (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-android-driver/lib/commands/device/common.js:29:34)
+    at AndroidUiautomator2Driver.createSession (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/lib/driver.ts:361:41)
+    at AppiumDriver.createSession (/Users/macbook/.nvm/versions/node/v20.19.5/lib/node_modules/appium/lib/appium.js:360:35)
+[38;5;152m[77c53b65][0m[38;5;86m[HTTP][0m [37m<-- POST /session [39m[31m500[39m [90m12 ms - 1786[39m [90m[39m
+[38;5;86m[HTTP][0m [37m-->[39m [37mPOST[39m [37m/session[39m [90m{"capabilities":{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":"org.wikipedia.alpha","appium:appActivity":"org.wikipedia.DefaultIcon","appium:noReset":false,"appium:fullReset":false,"appium:autoGrantPermissions":true,"appium:adbExecTimeout":20000},"firstMatch":[{}]}}[39m
+[38;5;175m[AppiumDriver@0272][0m Calling AppiumDriver.createSession() with args: [{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":"org.wikipedia.alpha","appium:appActivity":"org.wikipedia.DefaultIcon","appium:noReset":false,"appium:fullReset":false,"appium:autoGrantPermissions":true,"appium:adbExecTimeout":20000},"firstMatch":[{}]},{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":"org.wikipedia.alpha","appium:appActivity":"org.wikipedia.DefaultIcon","appium:noReset":false,"appium:fullReset":false,"appium:autoGrantPermissions":true,"appium:adbExecTimeout":20000},"firstMatch":[{}]},{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":...
+[38;5;175m[AppiumDriver@0272][0m Event 'newSessionRequested' logged at 1762600779427 (12:19:39 GMT+0100 (Central European Standard Time))
+[38;5;112m[Appium][0m Attempting to find matching driver for automationName 'UiAutomator2' and platformName 'Android'
+[38;5;112m[Appium][0m The 'uiautomator2' driver was installed and matched caps.
+[38;5;112m[Appium][0m Will require it at /Users/macbook/.appium/node_modules/appium-uiautomator2-driver
+[38;5;112m[Appium][0m Requiring driver at /Users/macbook/.appium/node_modules/appium-uiautomator2-driver/build/index.js
+[38;5;175m[AppiumDriver@0272][0m Appium v3.1.0 creating new AndroidUiautomator2Driver (v6.1.0) session
+[38;5;175m[AppiumDriver@0272][0m Checking BaseDriver versions for Appium and AndroidUiautomator2Driver
+[38;5;175m[AppiumDriver@0272][0m Appium's BaseDriver version is 10.1.0
+[38;5;175m[AppiumDriver@0272][0m AndroidUiautomator2Driver's BaseDriver version is 10.1.0
+[38;5;175m[AppiumDriver@0272][0m Enabling relaxed security for this session as per the server configuration. All insecure features will be enabled unless explicitly disabled by --deny-insecure
+[38;5;-154m[AndroidUiautomator2Driver@e545][0m 
+[38;5;-154m[AndroidUiautomator2Driver@e545][0m Creating session with W3C capabilities: {
+  "alwaysMatch": {
+    "platformName": "Android",
+    "appium:deviceName": "sdk_gphone64_x86_64",
+    "appium:platformVersion": "16.0",
+    "appium:automationName": "UiAutomator2",
+    "appium:udid": "emulator-5554",
+    "appium:appPackage": "org.wikipedia.alpha",
+    "appium:appActivity": "org.wikipedia.DefaultIcon",
+    "appium:noReset": false,
+    "appium:fullReset": false,
+    "appium:autoGrantPermissions": true,
+    "appium:adbExecTimeout": 20000
+  },
+  "firstMatch": [
+    {}
+  ]
+}
+[38;5;151m[46f41ab5][0m[38;5;-154m[AndroidUiautomator2Driver@e545][0m Session created with session id: 46f41ab5-1c85-4626-9eb2-40d255c24a80
+[38;5;151m[46f41ab5][0m[38;5;-154m[AndroidUiautomator2Driver@e545][0m Deleting UiAutomator2 session
+[38;5;151m[46f41ab5][0m[38;5;175m[AppiumDriver@0272][0m Event 'newSessionStarted' logged at 1762600779436 (12:19:39 GMT+0100 (Central European Standard Time))
+[38;5;151m[46f41ab5][0m[38;5;175m[AppiumDriver@0272][0m Encountered internal error running command: Error: Neither ANDROID_HOME nor ANDROID_SDK_ROOT environment variable was exported. Read https://developer.android.com/studio/command-line/variables for more details
+    at requireSdkRoot (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-adb/lib/helpers.js:77:11)
+    at Function.createADB (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-adb/lib/adb.ts:131:39)
+    at createBaseADB (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-android-driver/lib/commands/device/utils.js:137:20)
+    at AndroidUiautomator2Driver.getDeviceInfoFromCaps (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-android-driver/lib/commands/device/common.js:29:34)
+    at AndroidUiautomator2Driver.createSession (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/lib/driver.ts:361:41)
+    at AppiumDriver.createSession (/Users/macbook/.nvm/versions/node/v20.19.5/lib/node_modules/appium/lib/appium.js:360:35)
+[38;5;151m[46f41ab5][0m[38;5;86m[HTTP][0m [37m<-- POST /session [39m[31m500[39m [90m12 ms - 1786[39m [90m[39m
+[38;5;86m[HTTP][0m [37m-->[39m [37mPOST[39m [37m/session[39m [90m{"capabilities":{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":"org.wikipedia.alpha","appium:appActivity":"org.wikipedia.DefaultIcon","appium:noReset":false,"appium:fullReset":false,"appium:autoGrantPermissions":true,"appium:adbExecTimeout":20000},"firstMatch":[{}]}}[39m
+[38;5;175m[AppiumDriver@0272][0m Calling AppiumDriver.createSession() with args: [{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":"org.wikipedia.alpha","appium:appActivity":"org.wikipedia.DefaultIcon","appium:noReset":false,"appium:fullReset":false,"appium:autoGrantPermissions":true,"appium:adbExecTimeout":20000},"firstMatch":[{}]},{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":"org.wikipedia.alpha","appium:appActivity":"org.wikipedia.DefaultIcon","appium:noReset":false,"appium:fullReset":false,"appium:autoGrantPermissions":true,"appium:adbExecTimeout":20000},"firstMatch":[{}]},{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":...
+[38;5;175m[AppiumDriver@0272][0m Event 'newSessionRequested' logged at 1762600779442 (12:19:39 GMT+0100 (Central European Standard Time))
+[38;5;112m[Appium][0m Attempting to find matching driver for automationName 'UiAutomator2' and platformName 'Android'
+[38;5;112m[Appium][0m The 'uiautomator2' driver was installed and matched caps.
+[38;5;112m[Appium][0m Will require it at /Users/macbook/.appium/node_modules/appium-uiautomator2-driver
+[38;5;112m[Appium][0m Requiring driver at /Users/macbook/.appium/node_modules/appium-uiautomator2-driver/build/index.js
+[38;5;175m[AppiumDriver@0272][0m Appium v3.1.0 creating new AndroidUiautomator2Driver (v6.1.0) session
+[38;5;175m[AppiumDriver@0272][0m Checking BaseDriver versions for Appium and AndroidUiautomator2Driver
+[38;5;175m[AppiumDriver@0272][0m Appium's BaseDriver version is 10.1.0
+[38;5;175m[AppiumDriver@0272][0m AndroidUiautomator2Driver's BaseDriver version is 10.1.0
+[38;5;175m[AppiumDriver@0272][0m Enabling relaxed security for this session as per the server configuration. All insecure features will be enabled unless explicitly disabled by --deny-insecure
+[38;5;-61m[AndroidUiautomator2Driver@0a01][0m 
+[38;5;-61m[AndroidUiautomator2Driver@0a01][0m Creating session with W3C capabilities: {
+  "alwaysMatch": {
+    "platformName": "Android",
+    "appium:deviceName": "sdk_gphone64_x86_64",
+    "appium:platformVersion": "16.0",
+    "appium:automationName": "UiAutomator2",
+    "appium:udid": "emulator-5554",
+    "appium:appPackage": "org.wikipedia.alpha",
+    "appium:appActivity": "org.wikipedia.DefaultIcon",
+    "appium:noReset": false,
+    "appium:fullReset": false,
+    "appium:autoGrantPermissions": true,
+    "appium:adbExecTimeout": 20000
+  },
+  "firstMatch": [
+    {}
+  ]
+}
+[38;5;168m[cb7fc50f][0m[38;5;-61m[AndroidUiautomator2Driver@0a01][0m Session created with session id: cb7fc50f-482b-49ae-873a-d82c5a328726
+[38;5;168m[cb7fc50f][0m[38;5;-61m[AndroidUiautomator2Driver@0a01][0m Deleting UiAutomator2 session
+[38;5;168m[cb7fc50f][0m[38;5;175m[AppiumDriver@0272][0m Event 'newSessionStarted' logged at 1762600779451 (12:19:39 GMT+0100 (Central European Standard Time))
+[38;5;168m[cb7fc50f][0m[38;5;175m[AppiumDriver@0272][0m Encountered internal error running command: Error: Neither ANDROID_HOME nor ANDROID_SDK_ROOT environment variable was exported. Read https://developer.android.com/studio/command-line/variables for more details
+    at requireSdkRoot (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-adb/lib/helpers.js:77:11)
+    at Function.createADB (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-adb/lib/adb.ts:131:39)
+    at createBaseADB (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-android-driver/lib/commands/device/utils.js:137:20)
+    at AndroidUiautomator2Driver.getDeviceInfoFromCaps (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-android-driver/lib/commands/device/common.js:29:34)
+    at AndroidUiautomator2Driver.createSession (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/lib/driver.ts:361:41)
+    at AppiumDriver.createSession (/Users/macbook/.nvm/versions/node/v20.19.5/lib/node_modules/appium/lib/appium.js:360:35)
+[38;5;168m[cb7fc50f][0m[38;5;86m[HTTP][0m [37m<-- POST /session [39m[31m500[39m [90m11 ms - 1786[39m [90m[39m
+[38;5;86m[HTTP][0m [37m-->[39m [37mPOST[39m [37m/session[39m [90m{"capabilities":{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":"org.wikipedia.alpha","appium:appActivity":"org.wikipedia.DefaultIcon","appium:noReset":false,"appium:fullReset":false,"appium:autoGrantPermissions":true,"appium:adbExecTimeout":20000},"firstMatch":[{}]}}[39m
+[38;5;175m[AppiumDriver@0272][0m Calling AppiumDriver.createSession() with args: [{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":"org.wikipedia.alpha","appium:appActivity":"org.wikipedia.DefaultIcon","appium:noReset":false,"appium:fullReset":false,"appium:autoGrantPermissions":true,"appium:adbExecTimeout":20000},"firstMatch":[{}]},{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":"org.wikipedia.alpha","appium:appActivity":"org.wikipedia.DefaultIcon","appium:noReset":false,"appium:fullReset":false,"appium:autoGrantPermissions":true,"appium:adbExecTimeout":20000},"firstMatch":[{}]},{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":...
+[38;5;175m[AppiumDriver@0272][0m Event 'newSessionRequested' logged at 1762600779959 (12:19:39 GMT+0100 (Central European Standard Time))
+[38;5;112m[Appium][0m Attempting to find matching driver for automationName 'UiAutomator2' and platformName 'Android'
+[38;5;112m[Appium][0m The 'uiautomator2' driver was installed and matched caps.
+[38;5;112m[Appium][0m Will require it at /Users/macbook/.appium/node_modules/appium-uiautomator2-driver
+[38;5;112m[Appium][0m Requiring driver at /Users/macbook/.appium/node_modules/appium-uiautomator2-driver/build/index.js
+[38;5;175m[AppiumDriver@0272][0m Appium v3.1.0 creating new AndroidUiautomator2Driver (v6.1.0) session
+[38;5;175m[AppiumDriver@0272][0m Checking BaseDriver versions for Appium and AndroidUiautomator2Driver
+[38;5;175m[AppiumDriver@0272][0m Appium's BaseDriver version is 10.1.0
+[38;5;175m[AppiumDriver@0272][0m AndroidUiautomator2Driver's BaseDriver version is 10.1.0
+[38;5;175m[AppiumDriver@0272][0m Enabling relaxed security for this session as per the server configuration. All insecure features will be enabled unless explicitly disabled by --deny-insecure
+[38;5;-107m[AndroidUiautomator2Driver@bda9][0m 
+[38;5;-107m[AndroidUiautomator2Driver@bda9][0m Creating session with W3C capabilities: {
+  "alwaysMatch": {
+    "platformName": "Android",
+    "appium:deviceName": "sdk_gphone64_x86_64",
+    "appium:platformVersion": "16.0",
+    "appium:automationName": "UiAutomator2",
+    "appium:udid": "emulator-5554",
+    "appium:appPackage": "org.wikipedia.alpha",
+    "appium:appActivity": "org.wikipedia.DefaultIcon",
+    "appium:noReset": false,
+    "appium:fullReset": false,
+    "appium:autoGrantPermissions": true,
+    "appium:adbExecTimeout": 20000
+  },
+  "firstMatch": [
+    {}
+  ]
+}
+[38;5;41m[0716c446][0m[38;5;-107m[AndroidUiautomator2Driver@bda9][0m Session created with session id: 0716c446-bfec-4c66-9957-b1cb6f7b18dd
+[38;5;41m[0716c446][0m[38;5;-107m[AndroidUiautomator2Driver@bda9][0m Deleting UiAutomator2 session
+[38;5;41m[0716c446][0m[38;5;175m[AppiumDriver@0272][0m Event 'newSessionStarted' logged at 1762600779966 (12:19:39 GMT+0100 (Central European Standard Time))
+[38;5;41m[0716c446][0m[38;5;175m[AppiumDriver@0272][0m Encountered internal error running command: Error: Neither ANDROID_HOME nor ANDROID_SDK_ROOT environment variable was exported. Read https://developer.android.com/studio/command-line/variables for more details
+    at requireSdkRoot (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-adb/lib/helpers.js:77:11)
+    at Function.createADB (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-adb/lib/adb.ts:131:39)
+    at createBaseADB (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-android-driver/lib/commands/device/utils.js:137:20)
+    at AndroidUiautomator2Driver.getDeviceInfoFromCaps (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-android-driver/lib/commands/device/common.js:29:34)
+    at AndroidUiautomator2Driver.createSession (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/lib/driver.ts:361:41)
+    at AppiumDriver.createSession (/Users/macbook/.nvm/versions/node/v20.19.5/lib/node_modules/appium/lib/appium.js:360:35)
+[38;5;41m[0716c446][0m[38;5;86m[HTTP][0m [37m<-- POST /session [39m[31m500[39m [90m9 ms - 1786[39m [90m[39m
+[38;5;86m[HTTP][0m [37m-->[39m [37mPOST[39m [37m/session[39m [90m{"capabilities":{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":"org.wikipedia.alpha","appium:appActivity":"org.wikipedia.DefaultIcon","appium:noReset":false,"appium:fullReset":false,"appium:autoGrantPermissions":true,"appium:adbExecTimeout":20000},"firstMatch":[{}]}}[39m
+[38;5;175m[AppiumDriver@0272][0m Calling AppiumDriver.createSession() with args: [{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":"org.wikipedia.alpha","appium:appActivity":"org.wikipedia.DefaultIcon","appium:noReset":false,"appium:fullReset":false,"appium:autoGrantPermissions":true,"appium:adbExecTimeout":20000},"firstMatch":[{}]},{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":"org.wikipedia.alpha","appium:appActivity":"org.wikipedia.DefaultIcon","appium:noReset":false,"appium:fullReset":false,"appium:autoGrantPermissions":true,"appium:adbExecTimeout":20000},"firstMatch":[{}]},{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":...
+[38;5;175m[AppiumDriver@0272][0m Event 'newSessionRequested' logged at 1762600780973 (12:19:40 GMT+0100 (Central European Standard Time))
+[38;5;112m[Appium][0m Attempting to find matching driver for automationName 'UiAutomator2' and platformName 'Android'
+[38;5;112m[Appium][0m The 'uiautomator2' driver was installed and matched caps.
+[38;5;112m[Appium][0m Will require it at /Users/macbook/.appium/node_modules/appium-uiautomator2-driver
+[38;5;112m[Appium][0m Requiring driver at /Users/macbook/.appium/node_modules/appium-uiautomator2-driver/build/index.js
+[38;5;175m[AppiumDriver@0272][0m Appium v3.1.0 creating new AndroidUiautomator2Driver (v6.1.0) session
+[38;5;175m[AppiumDriver@0272][0m Checking BaseDriver versions for Appium and AndroidUiautomator2Driver
+[38;5;175m[AppiumDriver@0272][0m Appium's BaseDriver version is 10.1.0
+[38;5;175m[AppiumDriver@0272][0m AndroidUiautomator2Driver's BaseDriver version is 10.1.0
+[38;5;175m[AppiumDriver@0272][0m Enabling relaxed security for this session as per the server configuration. All insecure features will be enabled unless explicitly disabled by --deny-insecure
+[38;5;12m[AndroidUiautomator2Driver@7981][0m 
+[38;5;12m[AndroidUiautomator2Driver@7981][0m Creating session with W3C capabilities: {
+  "alwaysMatch": {
+    "platformName": "Android",
+    "appium:deviceName": "sdk_gphone64_x86_64",
+    "appium:platformVersion": "16.0",
+    "appium:automationName": "UiAutomator2",
+    "appium:udid": "emulator-5554",
+    "appium:appPackage": "org.wikipedia.alpha",
+    "appium:appActivity": "org.wikipedia.DefaultIcon",
+    "appium:noReset": false,
+    "appium:fullReset": false,
+    "appium:autoGrantPermissions": true,
+    "appium:adbExecTimeout": 20000
+  },
+  "firstMatch": [
+    {}
+  ]
+}
+[38;5;124m[f128cf19][0m[38;5;12m[AndroidUiautomator2Driver@7981][0m Session created with session id: f128cf19-6821-4b31-adce-559c43c92c4f
+[38;5;124m[f128cf19][0m[38;5;12m[AndroidUiautomator2Driver@7981][0m Deleting UiAutomator2 session
+[38;5;124m[f128cf19][0m[38;5;175m[AppiumDriver@0272][0m Event 'newSessionStarted' logged at 1762600780981 (12:19:40 GMT+0100 (Central European Standard Time))
+[38;5;124m[f128cf19][0m[38;5;175m[AppiumDriver@0272][0m Encountered internal error running command: Error: Neither ANDROID_HOME nor ANDROID_SDK_ROOT environment variable was exported. Read https://developer.android.com/studio/command-line/variables for more details
+    at requireSdkRoot (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-adb/lib/helpers.js:77:11)
+    at Function.createADB (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-adb/lib/adb.ts:131:39)
+    at createBaseADB (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-android-driver/lib/commands/device/utils.js:137:20)
+    at AndroidUiautomator2Driver.getDeviceInfoFromCaps (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-android-driver/lib/commands/device/common.js:29:34)
+    at AndroidUiautomator2Driver.createSession (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/lib/driver.ts:361:41)
+    at AppiumDriver.createSession (/Users/macbook/.nvm/versions/node/v20.19.5/lib/node_modules/appium/lib/appium.js:360:35)
+[38;5;124m[f128cf19][0m[38;5;86m[HTTP][0m [37m<-- POST /session [39m[31m500[39m [90m11 ms - 1786[39m [90m[39m
+[38;5;86m[HTTP][0m [37m-->[39m [37mPOST[39m [37m/session[39m [90m{"capabilities":{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":"org.wikipedia.alpha","appium:appActivity":"org.wikipedia.DefaultIcon","appium:noReset":false,"appium:fullReset":false,"appium:autoGrantPermissions":true,"appium:adbExecTimeout":20000},"firstMatch":[{}]}}[39m
+[38;5;175m[AppiumDriver@0272][0m Calling AppiumDriver.createSession() with args: [{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":"org.wikipedia.alpha","appium:appActivity":"org.wikipedia.DefaultIcon","appium:noReset":false,"appium:fullReset":false,"appium:autoGrantPermissions":true,"appium:adbExecTimeout":20000},"firstMatch":[{}]},{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":"org.wikipedia.alpha","appium:appActivity":"org.wikipedia.DefaultIcon","appium:noReset":false,"appium:fullReset":false,"appium:autoGrantPermissions":true,"appium:adbExecTimeout":20000},"firstMatch":[{}]},{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":...
+[38;5;175m[AppiumDriver@0272][0m Event 'newSessionRequested' logged at 1762600781873 (12:19:41 GMT+0100 (Central European Standard Time))
+[38;5;112m[Appium][0m Attempting to find matching driver for automationName 'UiAutomator2' and platformName 'Android'
+[38;5;112m[Appium][0m The 'uiautomator2' driver was installed and matched caps.
+[38;5;112m[Appium][0m Will require it at /Users/macbook/.appium/node_modules/appium-uiautomator2-driver
+[38;5;112m[Appium][0m Requiring driver at /Users/macbook/.appium/node_modules/appium-uiautomator2-driver/build/index.js
+[38;5;175m[AppiumDriver@0272][0m Appium v3.1.0 creating new AndroidUiautomator2Driver (v6.1.0) session
+[38;5;175m[AppiumDriver@0272][0m Checking BaseDriver versions for Appium and AndroidUiautomator2Driver
+[38;5;175m[AppiumDriver@0272][0m Appium's BaseDriver version is 10.1.0
+[38;5;175m[AppiumDriver@0272][0m AndroidUiautomator2Driver's BaseDriver version is 10.1.0
+[38;5;175m[AppiumDriver@0272][0m Enabling relaxed security for this session as per the server configuration. All insecure features will be enabled unless explicitly disabled by --deny-insecure
+[38;5;-143m[AndroidUiautomator2Driver@aa66][0m 
+[38;5;-143m[AndroidUiautomator2Driver@aa66][0m Creating session with W3C capabilities: {
+  "alwaysMatch": {
+    "platformName": "Android",
+    "appium:deviceName": "sdk_gphone64_x86_64",
+    "appium:platformVersion": "16.0",
+    "appium:automationName": "UiAutomator2",
+    "appium:udid": "emulator-5554",
+    "appium:appPackage": "org.wikipedia.alpha",
+    "appium:appActivity": "org.wikipedia.DefaultIcon",
+    "appium:noReset": false,
+    "appium:fullReset": false,
+    "appium:autoGrantPermissions": true,
+    "appium:adbExecTimeout": 20000
+  },
+  "firstMatch": [
+    {}
+  ]
+}
+[38;5;70m[df5426c4][0m[38;5;-143m[AndroidUiautomator2Driver@aa66][0m Session created with session id: df5426c4-ce1d-40c3-b99d-853ec208865f
+[38;5;70m[df5426c4][0m[38;5;-143m[AndroidUiautomator2Driver@aa66][0m Deleting UiAutomator2 session
+[38;5;70m[df5426c4][0m[38;5;175m[AppiumDriver@0272][0m Event 'newSessionStarted' logged at 1762600781882 (12:19:41 GMT+0100 (Central European Standard Time))
+[38;5;70m[df5426c4][0m[38;5;175m[AppiumDriver@0272][0m Encountered internal error running command: Error: Neither ANDROID_HOME nor ANDROID_SDK_ROOT environment variable was exported. Read https://developer.android.com/studio/command-line/variables for more details
+    at requireSdkRoot (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-adb/lib/helpers.js:77:11)
+    at Function.createADB (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-adb/lib/adb.ts:131:39)
+    at createBaseADB (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-android-driver/lib/commands/device/utils.js:137:20)
+    at AndroidUiautomator2Driver.getDeviceInfoFromCaps (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-android-driver/lib/commands/device/common.js:29:34)
+    at AndroidUiautomator2Driver.createSession (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/lib/driver.ts:361:41)
+    at AppiumDriver.createSession (/Users/macbook/.nvm/versions/node/v20.19.5/lib/node_modules/appium/lib/appium.js:360:35)
+[38;5;70m[df5426c4][0m[38;5;86m[HTTP][0m [37m<-- POST /session [39m[31m500[39m [90m11 ms - 1786[39m [90m[39m
+[38;5;86m[HTTP][0m [37m-->[39m [37mPOST[39m [37m/session[39m [90m{"capabilities":{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":"org.wikipedia.alpha","appium:appActivity":"org.wikipedia.DefaultIcon","appium:noReset":false,"appium:fullReset":false,"appium:autoGrantPermissions":true,"appium:adbExecTimeout":20000},"firstMatch":[{}]}}[39m
+[38;5;175m[AppiumDriver@0272][0m Calling AppiumDriver.createSession() with args: [{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":"org.wikipedia.alpha","appium:appActivity":"org.wikipedia.DefaultIcon","appium:noReset":false,"appium:fullReset":false,"appium:autoGrantPermissions":true,"appium:adbExecTimeout":20000},"firstMatch":[{}]},{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":"org.wikipedia.alpha","appium:appActivity":"org.wikipedia.DefaultIcon","appium:noReset":false,"appium:fullReset":false,"appium:autoGrantPermissions":true,"appium:adbExecTimeout":20000},"firstMatch":[{}]},{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":...
+[38;5;175m[AppiumDriver@0272][0m Event 'newSessionRequested' logged at 1762600781889 (12:19:41 GMT+0100 (Central European Standard Time))
+[38;5;112m[Appium][0m Attempting to find matching driver for automationName 'UiAutomator2' and platformName 'Android'
+[38;5;112m[Appium][0m The 'uiautomator2' driver was installed and matched caps.
+[38;5;112m[Appium][0m Will require it at /Users/macbook/.appium/node_modules/appium-uiautomator2-driver
+[38;5;112m[Appium][0m Requiring driver at /Users/macbook/.appium/node_modules/appium-uiautomator2-driver/build/index.js
+[38;5;175m[AppiumDriver@0272][0m Appium v3.1.0 creating new AndroidUiautomator2Driver (v6.1.0) session
+[38;5;175m[AppiumDriver@0272][0m Checking BaseDriver versions for Appium and AndroidUiautomator2Driver
+[38;5;175m[AppiumDriver@0272][0m Appium's BaseDriver version is 10.1.0
+[38;5;175m[AppiumDriver@0272][0m AndroidUiautomator2Driver's BaseDriver version is 10.1.0
+[38;5;175m[AppiumDriver@0272][0m Enabling relaxed security for this session as per the server configuration. All insecure features will be enabled unless explicitly disabled by --deny-insecure
+[38;5;-154m[AndroidUiautomator2Driver@1b48][0m 
+[38;5;-154m[AndroidUiautomator2Driver@1b48][0m Creating session with W3C capabilities: {
+  "alwaysMatch": {
+    "platformName": "Android",
+    "appium:deviceName": "sdk_gphone64_x86_64",
+    "appium:platformVersion": "16.0",
+    "appium:automationName": "UiAutomator2",
+    "appium:udid": "emulator-5554",
+    "appium:appPackage": "org.wikipedia.alpha",
+    "appium:appActivity": "org.wikipedia.DefaultIcon",
+    "appium:noReset": false,
+    "appium:fullReset": false,
+    "appium:autoGrantPermissions": true,
+    "appium:adbExecTimeout": 20000
+  },
+  "firstMatch": [
+    {}
+  ]
+}
+[38;5;158m[95eb0980][0m[38;5;-154m[AndroidUiautomator2Driver@1b48][0m Session created with session id: 95eb0980-e842-4047-bbb4-e10734603b87
+[38;5;158m[95eb0980][0m[38;5;-154m[AndroidUiautomator2Driver@1b48][0m Deleting UiAutomator2 session
+[38;5;158m[95eb0980][0m[38;5;175m[AppiumDriver@0272][0m Event 'newSessionStarted' logged at 1762600781897 (12:19:41 GMT+0100 (Central European Standard Time))
+[38;5;158m[95eb0980][0m[38;5;175m[AppiumDriver@0272][0m Encountered internal error running command: Error: Neither ANDROID_HOME nor ANDROID_SDK_ROOT environment variable was exported. Read https://developer.android.com/studio/command-line/variables for more details
+    at requireSdkRoot (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-adb/lib/helpers.js:77:11)
+    at Function.createADB (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-adb/lib/adb.ts:131:39)
+    at createBaseADB (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-android-driver/lib/commands/device/utils.js:137:20)
+    at AndroidUiautomator2Driver.getDeviceInfoFromCaps (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-android-driver/lib/commands/device/common.js:29:34)
+    at AndroidUiautomator2Driver.createSession (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/lib/driver.ts:361:41)
+    at AppiumDriver.createSession (/Users/macbook/.nvm/versions/node/v20.19.5/lib/node_modules/appium/lib/appium.js:360:35)
+[38;5;158m[95eb0980][0m[38;5;86m[HTTP][0m [37m<-- POST /session [39m[31m500[39m [90m10 ms - 1786[39m [90m[39m
+[38;5;86m[HTTP][0m [37m-->[39m [37mPOST[39m [37m/session[39m [90m{"capabilities":{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":"org.wikipedia.alpha","appium:appActivity":"org.wikipedia.DefaultIcon","appium:noReset":false,"appium:fullReset":false,"appium:autoGrantPermissions":true,"appium:adbExecTimeout":20000},"firstMatch":[{}]}}[39m
+[38;5;175m[AppiumDriver@0272][0m Calling AppiumDriver.createSession() with args: [{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":"org.wikipedia.alpha","appium:appActivity":"org.wikipedia.DefaultIcon","appium:noReset":false,"appium:fullReset":false,"appium:autoGrantPermissions":true,"appium:adbExecTimeout":20000},"firstMatch":[{}]},{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":"org.wikipedia.alpha","appium:appActivity":"org.wikipedia.DefaultIcon","appium:noReset":false,"appium:fullReset":false,"appium:autoGrantPermissions":true,"appium:adbExecTimeout":20000},"firstMatch":[{}]},{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":...
+[38;5;175m[AppiumDriver@0272][0m Event 'newSessionRequested' logged at 1762600782405 (12:19:42 GMT+0100 (Central European Standard Time))
+[38;5;112m[Appium][0m Attempting to find matching driver for automationName 'UiAutomator2' and platformName 'Android'
+[38;5;112m[Appium][0m The 'uiautomator2' driver was installed and matched caps.
+[38;5;112m[Appium][0m Will require it at /Users/macbook/.appium/node_modules/appium-uiautomator2-driver
+[38;5;112m[Appium][0m Requiring driver at /Users/macbook/.appium/node_modules/appium-uiautomator2-driver/build/index.js
+[38;5;175m[AppiumDriver@0272][0m Appium v3.1.0 creating new AndroidUiautomator2Driver (v6.1.0) session
+[38;5;175m[AppiumDriver@0272][0m Checking BaseDriver versions for Appium and AndroidUiautomator2Driver
+[38;5;175m[AppiumDriver@0272][0m Appium's BaseDriver version is 10.1.0
+[38;5;175m[AppiumDriver@0272][0m AndroidUiautomator2Driver's BaseDriver version is 10.1.0
+[38;5;175m[AppiumDriver@0272][0m Enabling relaxed security for this session as per the server configuration. All insecure features will be enabled unless explicitly disabled by --deny-insecure
+[38;5;-7m[AndroidUiautomator2Driver@118b][0m 
+[38;5;-7m[AndroidUiautomator2Driver@118b][0m Creating session with W3C capabilities: {
+  "alwaysMatch": {
+    "platformName": "Android",
+    "appium:deviceName": "sdk_gphone64_x86_64",
+    "appium:platformVersion": "16.0",
+    "appium:automationName": "UiAutomator2",
+    "appium:udid": "emulator-5554",
+    "appium:appPackage": "org.wikipedia.alpha",
+    "appium:appActivity": "org.wikipedia.DefaultIcon",
+    "appium:noReset": false,
+    "appium:fullReset": false,
+    "appium:autoGrantPermissions": true,
+    "appium:adbExecTimeout": 20000
+  },
+  "firstMatch": [
+    {}
+  ]
+}
+[38;5;183m[afd444c9][0m[38;5;-7m[AndroidUiautomator2Driver@118b][0m Session created with session id: afd444c9-4b4f-4025-b39d-06595eadeb3a
+[38;5;183m[afd444c9][0m[38;5;-7m[AndroidUiautomator2Driver@118b][0m Deleting UiAutomator2 session
+[38;5;183m[afd444c9][0m[38;5;175m[AppiumDriver@0272][0m Event 'newSessionStarted' logged at 1762600782412 (12:19:42 GMT+0100 (Central European Standard Time))
+[38;5;183m[afd444c9][0m[38;5;175m[AppiumDriver@0272][0m Encountered internal error running command: Error: Neither ANDROID_HOME nor ANDROID_SDK_ROOT environment variable was exported. Read https://developer.android.com/studio/command-line/variables for more details
+    at requireSdkRoot (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-adb/lib/helpers.js:77:11)
+    at Function.createADB (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-adb/lib/adb.ts:131:39)
+    at createBaseADB (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-android-driver/lib/commands/device/utils.js:137:20)
+    at AndroidUiautomator2Driver.getDeviceInfoFromCaps (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-android-driver/lib/commands/device/common.js:29:34)
+    at AndroidUiautomator2Driver.createSession (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/lib/driver.ts:361:41)
+    at AppiumDriver.createSession (/Users/macbook/.nvm/versions/node/v20.19.5/lib/node_modules/appium/lib/appium.js:360:35)
+[38;5;183m[afd444c9][0m[38;5;86m[HTTP][0m [37m<-- POST /session [39m[31m500[39m [90m10 ms - 1786[39m [90m[39m
+[38;5;86m[HTTP][0m [37m-->[39m [37mPOST[39m [37m/session[39m [90m{"capabilities":{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":"org.wikipedia.alpha","appium:appActivity":"org.wikipedia.DefaultIcon","appium:noReset":false,"appium:fullReset":false,"appium:autoGrantPermissions":true,"appium:adbExecTimeout":20000},"firstMatch":[{}]}}[39m
+[38;5;175m[AppiumDriver@0272][0m Calling AppiumDriver.createSession() with args: [{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":"org.wikipedia.alpha","appium:appActivity":"org.wikipedia.DefaultIcon","appium:noReset":false,"appium:fullReset":false,"appium:autoGrantPermissions":true,"appium:adbExecTimeout":20000},"firstMatch":[{}]},{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":"org.wikipedia.alpha","appium:appActivity":"org.wikipedia.DefaultIcon","appium:noReset":false,"appium:fullReset":false,"appium:autoGrantPermissions":true,"appium:adbExecTimeout":20000},"firstMatch":[{}]},{"alwaysMatch":{"platformName":"Android","appium:deviceName":"sdk_gphone64_x86_64","appium:platformVersion":"16.0","appium:automationName":"UiAutomator2","appium:udid":"emulator-5554","appium:appPackage":...
+[38;5;175m[AppiumDriver@0272][0m Event 'newSessionRequested' logged at 1762600783425 (12:19:43 GMT+0100 (Central European Standard Time))
+[38;5;112m[Appium][0m Attempting to find matching driver for automationName 'UiAutomator2' and platformName 'Android'
+[38;5;112m[Appium][0m The 'uiautomator2' driver was installed and matched caps.
+[38;5;112m[Appium][0m Will require it at /Users/macbook/.appium/node_modules/appium-uiautomator2-driver
+[38;5;112m[Appium][0m Requiring driver at /Users/macbook/.appium/node_modules/appium-uiautomator2-driver/build/index.js
+[38;5;175m[AppiumDriver@0272][0m Appium v3.1.0 creating new AndroidUiautomator2Driver (v6.1.0) session
+[38;5;175m[AppiumDriver@0272][0m Checking BaseDriver versions for Appium and AndroidUiautomator2Driver
+[38;5;175m[AppiumDriver@0272][0m Appium's BaseDriver version is 10.1.0
+[38;5;175m[AppiumDriver@0272][0m AndroidUiautomator2Driver's BaseDriver version is 10.1.0
+[38;5;175m[AppiumDriver@0272][0m Enabling relaxed security for this session as per the server configuration. All insecure features will be enabled unless explicitly disabled by --deny-insecure
+[38;5;-13m[AndroidUiautomator2Driver@4b48][0m 
+[38;5;-13m[AndroidUiautomator2Driver@4b48][0m Creating session with W3C capabilities: {
+  "alwaysMatch": {
+    "platformName": "Android",
+    "appium:deviceName": "sdk_gphone64_x86_64",
+    "appium:platformVersion": "16.0",
+    "appium:automationName": "UiAutomator2",
+    "appium:udid": "emulator-5554",
+    "appium:appPackage": "org.wikipedia.alpha",
+    "appium:appActivity": "org.wikipedia.DefaultIcon",
+    "appium:noReset": false,
+    "appium:fullReset": false,
+    "appium:autoGrantPermissions": true,
+    "appium:adbExecTimeout": 20000
+  },
+  "firstMatch": [
+    {}
+  ]
+}
+[38;5;92m[756b0f51][0m[38;5;-13m[AndroidUiautomator2Driver@4b48][0m Session created with session id: 756b0f51-6e81-47ba-80bc-4372be11feb1
+[38;5;92m[756b0f51][0m[38;5;-13m[AndroidUiautomator2Driver@4b48][0m Deleting UiAutomator2 session
+[38;5;92m[756b0f51][0m[38;5;175m[AppiumDriver@0272][0m Event 'newSessionStarted' logged at 1762600783433 (12:19:43 GMT+0100 (Central European Standard Time))
+[38;5;92m[756b0f51][0m[38;5;175m[AppiumDriver@0272][0m Encountered internal error running command: Error: Neither ANDROID_HOME nor ANDROID_SDK_ROOT environment variable was exported. Read https://developer.android.com/studio/command-line/variables for more details
+    at requireSdkRoot (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-adb/lib/helpers.js:77:11)
+    at Function.createADB (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-adb/lib/adb.ts:131:39)
+    at createBaseADB (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-android-driver/lib/commands/device/utils.js:137:20)
+    at AndroidUiautomator2Driver.getDeviceInfoFromCaps (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-android-driver/lib/commands/device/common.js:29:34)
+    at AndroidUiautomator2Driver.createSession (/Users/macbook/.appium/node_modules/appium-uiautomator2-driver/lib/driver.ts:361:41)
+    at AppiumDriver.createSession (/Users/macbook/.nvm/versions/node/v20.19.5/lib/node_modules/appium/lib/appium.js:360:35)
+[38;5;92m[756b0f51][0m[38;5;86m[HTTP][0m [37m<-- POST /session [39m[31m500[39m [90m15 ms - 1786[39m [90m[39m

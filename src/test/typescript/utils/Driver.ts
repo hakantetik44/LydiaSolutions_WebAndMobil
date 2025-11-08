@@ -102,7 +102,6 @@ export class Driver {
             path: '/',
             capabilities: androidCapabilities
         };
-
         this.driverPool = await remote(androidOptions);
     }
 
@@ -133,7 +132,6 @@ export class Driver {
                 'appium:wdaStartupRetryInterval': 20000
             }
         };
-
         this.driverPool = await remote(iOSOptions);
     }
 
