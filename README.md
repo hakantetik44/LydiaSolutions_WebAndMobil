@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Lydia_Logo.svg/512px-Lydia_Logo.svg.png" height="84" alt="Lydia" />
+<img src="https://upload.wikimedia.org/wikipedia/fr/thumb/c/c7/Logo_Lydia.png/1200px-Logo_Lydia.png" height="120" alt="Lydia" />
 
 <h1 style="border-bottom:none; margin-top:12px;">Lydia Mobile & Web E2E Test Automation</h1>
 
