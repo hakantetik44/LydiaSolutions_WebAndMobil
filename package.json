@@ -8,11 +8,13 @@
     "test:android": "platformName=android cucumber-js && npm run allure:report",
     "test:ios": "platformName=ios cucumber-js && npm run allure:report",
     "test:only": "cucumber-js",
+    "allure:enhance": "ts-node -e \"require('./src/test/typescript/utils/AllureEnhancer').enhanceAllure()\"",
     "allure:generate": "allure generate target/allure-results --clean -o target/allure-report",
-    "allure:open": "allure open target/allure-report",
-    "allure:report": "npm run allure:generate && npm run allure:open",
+    "allure:open": "open target/allure-report/index.html || allure open target/allure-report",
+    "allure:report": "npm run allure:enhance && npm run allure:generate && npm run allure:open",
+    "allure:clean": "rm -rf target/allure-results/* target/allure-report/*",
     "build": "tsc",
-    "clean": "rm -rf dist",
+    "clean": "rm -rf dist && npm run allure:clean",
     "prebuild": "npm run clean"
   },
   "keywords": [

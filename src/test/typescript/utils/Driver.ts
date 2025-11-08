@@ -1,10 +1,12 @@
 import { remote } from 'webdriverio';
 import { ConfigReader } from './ConfigReader';
+import * as fs from 'fs';
+import * as path from 'path';
 
 export class Driver {
     private static driverPool: WebdriverIO.Browser | null = null;
     private static readonly APPIUM_URL: string = ConfigReader.getProperty('appium.server.url') || 'http://localhost:4723';
-    private static readonly IMPLICIT_WAIT: number = parseInt(ConfigReader.getProperty('web.implicit.wait') || '10');
+    private static readonly IMPLICIT_WAIT: number = parseInt(ConfigReader.getProperty('web.implicit.wait') || '3');
 
     private constructor() {
         // Private constructor to prevent instantiation
@@ -37,44 +39,80 @@ export class Driver {
             }
 
             await this.configureDriver();
-            console.log(`${platform.toUpperCase()} driver created successfully!`);
 
         } catch (error) {
-            console.error(`Error creating driver for platform ${platform}:`, error);
             throw new Error(`Failed to initialize driver: ${error}`);
         }
     }
 
     private static async initializeAndroidDriver(): Promise<void> {
-        console.log("Starting Android driver...");
+        // Read raw values from configuration
+        const configuredPackage = ConfigReader.getProperty('android.app.package');
+        let configuredActivity = ConfigReader.getProperty('android.app.activity') || '';
+
+        // If activity is provided in the form 'package/activity', split it
+        let appPackage = configuredPackage;
+        let appActivity = configuredActivity;
+        if (configuredActivity.includes('/')) {
+            const parts = configuredActivity.split('/');
+            if (parts.length === 2) {
+                if (!appPackage || appPackage.trim().length === 0) {
+                    appPackage = parts[0];
+                }
+                appActivity = parts[1].startsWith('.') ? parts[1] : parts[1];
+            }
+        }
+
+        // Optional: include local APK if configured
+        const appPathConfig = ConfigReader.getProperty('android.app.path');
+        let resolvedAppPath: string | undefined = undefined;
+        if (appPathConfig) {
+            const absPath = path.isAbsolute(appPathConfig) ? appPathConfig : path.join(process.cwd(), appPathConfig);
+            if (fs.existsSync(absPath)) {
+                resolvedAppPath = absPath;
+            }
+        }
+
+        // Fresh start flags from config (default to noReset=false, fullReset optional)
+        const noResetCfg = (ConfigReader.getProperty('android.no.reset') || 'false').toLowerCase() === 'true';
+        const fullResetCfg = (ConfigReader.getProperty('android.full.reset') || 'false').toLowerCase() === 'true';
+
+        const androidCapabilities: any = {
+            platformName: ConfigReader.getProperty('android.platform.name') || 'Android',
+            'appium:deviceName': ConfigReader.getProperty('android.device.name'),
+            'appium:platformVersion': ConfigReader.getProperty('android.platform.version'),
+            'appium:automationName': ConfigReader.getProperty('android.automation.name') || 'UiAutomator2',
+            'appium:udid': ConfigReader.getProperty('android.udid'),
+            'appium:appPackage': appPackage,
+            'appium:appActivity': appActivity,
+            'appium:noReset': noResetCfg,
+            'appium:fullReset': fullResetCfg,
+            'appium:autoGrantPermissions': ConfigReader.getProperty('android.auto.grant.permissions') === 'true',
+            'appium:adbExecTimeout': parseInt(ConfigReader.getProperty('android.adb.execution.timeout') || '20000')
+        };
+
+        if (resolvedAppPath) {
+            androidCapabilities['appium:app'] = resolvedAppPath;
+        }
 
         const androidOptions = {
-            logLevel: 'info' as const,
+            logLevel: 'silent' as const,
             hostname: new URL(this.APPIUM_URL).hostname,
             port: parseInt(new URL(this.APPIUM_URL).port) || 4723,
             path: '/',
-            capabilities: {
-                platformName: ConfigReader.getProperty('android.platform.name') || 'Android',
-                'appium:deviceName': ConfigReader.getProperty('android.device.name'),
-                'appium:platformVersion': ConfigReader.getProperty('android.platform.version'),
-                'appium:automationName': ConfigReader.getProperty('android.automation.name') || 'UiAutomator2',
-                'appium:udid': ConfigReader.getProperty('android.udid'),
-                'appium:appPackage': ConfigReader.getProperty('android.app.package'),
-                'appium:appActivity': ConfigReader.getProperty('android.app.activity'),
-                'appium:noReset': ConfigReader.getProperty('android.no.reset') === 'true',
-                'appium:autoGrantPermissions': ConfigReader.getProperty('android.auto.grant.permissions') === 'true',
-                'appium:adbExecTimeout': parseInt(ConfigReader.getProperty('android.adb.execution.timeout') || '20000')
-            }
+            capabilities: androidCapabilities
         };
 
         this.driverPool = await remote(androidOptions);
     }
 
     private static async initializeIOSDriver(): Promise<void> {
-        console.log("Starting iOS driver...");
+        // Fresh start flags from config (default to noReset=false)
+        const noResetCfg = (ConfigReader.getProperty('ios.no.reset') || 'false').toLowerCase() === 'true';
+        const fullResetCfg = (ConfigReader.getProperty('ios.full.reset') || 'false').toLowerCase() === 'true';
 
         const iOSOptions = {
-            logLevel: 'info' as const,
+            logLevel: 'silent' as const,
             hostname: new URL(this.APPIUM_URL).hostname,
             port: parseInt(new URL(this.APPIUM_URL).port) || 4723,
             path: '/',
@@ -85,7 +123,8 @@ export class Driver {
                 'appium:udid': ConfigReader.getProperty('ios.udid'),
                 'appium:automationName': ConfigReader.getProperty('ios.automation.name') || 'XCUITest',
                 'appium:bundleId': ConfigReader.getProperty('ios.bundle.id'),
-                'appium:noReset': true,
+                'appium:noReset': noResetCfg,
+                'appium:fullReset': fullResetCfg,
                 'appium:usePrebuiltWDA': true,
                 'appium:showXcodeLog': true,
                 'appium:useNewWDA': false,
@@ -109,11 +148,7 @@ export class Driver {
             if (this.driverPool !== null) {
                 await this.driverPool.deleteSession();
                 this.driverPool = null;
-                console.log("Driver closed successfully");
             }
-        } catch (error) {
-            console.error("Error while closing driver:", error);
-        }
+        } catch { /* ignore */ }
     }
 }
-

@@ -6,8 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="WiglMobileE2E" />
-        <module name="LydiaMobile_E2E" />
+        <!-- Java modules removed because the project is migrated to TypeScript -->
       </profile>
     </annotationProcessing>
   </component>

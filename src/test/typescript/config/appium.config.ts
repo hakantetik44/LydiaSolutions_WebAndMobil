@@ -30,12 +30,12 @@ export interface AppiumConfig {
 export const config: AppiumConfig = {
     android: {
         platformName: 'Android',
-        deviceName: 'emulator-5554',
-        platformVersion: '13',
+        deviceName: 'sdk_gphone64_x86_64',
+        platformVersion: '16.0',
         automationName: 'UiAutomator2',
         udid: 'emulator-5554',
-        appPackage: 'com.lydia.lydia_app',
-        appActivity: 'com.lydia.lydia_app.MainActivity',
+        appPackage: 'org.wikipedia.alpha',
+        appActivity: 'org.wikipedia.DefaultIcon',
         noReset: true,
         autoGrantPermissions: true,
         adbExecTimeout: 20000
@@ -52,9 +52,8 @@ export const config: AppiumConfig = {
         serverUrl: 'http://127.0.0.1:4723'
     },
     wait: {
-        implicitWait: 10
+        implicitWait: 3
     }
 };
 
 export default config;
-

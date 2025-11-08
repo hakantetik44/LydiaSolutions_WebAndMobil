@@ -3,7 +3,8 @@ module.exports = {
     requireModule: ['ts-node/register'],
     require: ['src/test/typescript/stepDefinitions/**/*.ts'],
     format: [
-      'progress-bar',
+      'progress',
+      'summary',
       'json:target/cucumber.json',
       'html:target/cucumber-reports/cucumber-reports.html',
       'json:target/cucumber-reports/CucumberTestReport.json',
@@ -11,10 +12,10 @@ module.exports = {
     ],
     formatOptions: {
       snippetInterface: 'async-await',
-      resultsDir: 'target/allure-results'
+      resultsDir: 'target/allure-results',
+      colorsEnabled: true
     },
     paths: ['src/test/resources/features/**/*.feature'],
-    publishQuiet: true,
     dryRun: false,
     parallel: 1,
     timeout: 120000

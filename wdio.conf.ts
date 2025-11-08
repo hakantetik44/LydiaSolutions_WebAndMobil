@@ -8,13 +8,20 @@ export const config: Options.Testrunner = {
     exclude: [],
     maxInstances: 1,
     capabilities: [],
-    logLevel: 'info',
+    logLevel: 'silent',
     bail: 0,
     waitforTimeout: 10000,
     connectionRetryTimeout: 120000,
     connectionRetryCount: 3,
     framework: 'cucumber',
-    reporters: ['spec'],
+    reporters: [
+        'spec',
+        ['allure', {
+            outputDir: 'target/allure-results',
+            disableWebdriverStepsReporting: false,
+            disableWebdriverScreenshotsReporting: false,
+        }]
+    ],
     cucumberOpts: {
         require: ['./src/test/typescript/stepDefinitions/**/*.ts'],
         backtrace: false,
@@ -38,4 +45,3 @@ export const config: Options.Testrunner = {
         require('ts-node').register({ files: true });
     },
 };
-
