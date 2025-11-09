@@ -1,0 +1,13 @@
+node_modules/
+target/
+dist/
+*.log
+.DS_Store
+.idea/
+*.iml
+package-lock.json
+allure-results/
+allure-report/
+videos/
+*.mp4
+

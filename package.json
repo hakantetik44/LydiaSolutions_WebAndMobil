@@ -1,0 +1,55 @@
+{
+  "name": "lydiamobile-e2e-typescript",
+  "version": "1.0.0",
+  "description": "Lydia Mobile E2E Tests - TypeScript Version",
+  "main": "index.js",
+  "scripts": {
+    "test": "cucumber-js && npm run allure:report",
+    "test:android": "platformName=android cucumber-js && npm run allure:report",
+    "test:ios": "platformName=ios cucumber-js && npm run allure:report",
+    "test:only": "cucumber-js",
+    "test:api": "cucumber-js --config api-tests/cucumber.js && npm run allure:api:report",
+    "test:api:only": "cucumber-js --config api-tests/cucumber.js",
+    "test:all": "cucumber-js --config api-tests/cucumber.js && sleep 3 && allure generate target/allure-api-results --clean -o target/allure-api-report && sleep 2 && open target/allure-api-report/index.html || allure open target/allure-api-report",
+    "allure:enhance": "ts-node -e \"require('./src/test/typescript/utils/AllureEnhancer').enhanceAllure()\"",
+    "allure:generate": "allure generate target/allure-results --clean -o target/allure-report",
+    "allure:open": "open target/allure-report/index.html || allure open target/allure-report",
+    "allure:report": "npm run allure:enhance && npm run allure:generate && npm run allure:open",
+    "allure:api:generate": "allure generate target/allure-api-results --clean -o target/allure-api-report",
+    "allure:api:open": "open target/allure-api-report/index.html || allure open target/allure-api-report",
+    "allure:api:serve": "allure serve target/allure-api-results",
+    "allure:api:report": "npm run allure:api:generate && npm run allure:api:open",
+    "allure:clean": "rm -rf target/allure-results/* target/allure-report/*",
+    "allure:api:clean": "rm -rf target/allure-api-results/* target/allure-api-report/*",
+    "build": "tsc",
+    "clean": "rm -rf dist && npm run allure:clean",
+    "prebuild": "npm run clean"
+  },
+  "keywords": [
+    "e2e",
+    "testing",
+    "appium",
+    "cucumber",
+    "typescript"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@cucumber/cucumber": "^10.9.0",
+    "@types/node": "^20.0.0",
+    "@wdio/allure-reporter": "^9.20.0",
+    "@wdio/globals": "^9.17.0",
+    "allure-commandline": "^2.34.1",
+    "allure-cucumberjs": "^3.4.2",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.0.0",
+    "wdio-video-reporter": "^6.2.0"
+  },
+  "dependencies": {
+    "@types/chai": "^4.3.0",
+    "@wdio/appium-service": "^8.0.0",
+    "appium": "^1.22.3",
+    "chai": "^4.3.0",
+    "webdriverio": "^9.20.0"
+  }
+}
