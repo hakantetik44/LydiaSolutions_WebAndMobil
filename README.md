@@ -1,4 +1,4 @@
-<div align="center">
+<div>
 
 <img src="https://upload.wikimedia.org/wikipedia/fr/thumb/c/c7/Logo_Lydia.png/1200px-Logo_Lydia.png" height="120" alt="Lydia" />
 
@@ -9,7 +9,7 @@
 </p>
 
 <p>
-<a href="#continuous-integration"><img src="https://img.shields.io/badge/Jenkins-Pipeline-blue" alt="Jenkins" /></a>
+<img src="https://img.shields.io/badge/Jenkins-Pipeline-blue" alt="Jenkins" />
 <img src="https://img.shields.io/badge/Node.js-20.x-brightgreen" alt="Node 20" />
 <img src="https://img.shields.io/badge/Appium-3.1.0-9cf" alt="Appium 3.1" />
 <img src="https://img.shields.io/badge/Platform-Android%20|%20iOS%20|%20API-orange" alt="Platforms" />
@@ -36,7 +36,7 @@
 
 ## Overview
 Comprehensive end-to-end automation test suite for Lydia mobile applications and APIs. The suite includes:
-- **Mobile Tests**:  Uses the Wikipedia Android APK (org.wikipedia.alpha). Mobile tests will install/run the local Wikipedia APK and cover onboarding, carousel/navigation, searching, language change, deep scroll, and link navigation inside the Wikipedia app.
+- **Mobile Tests**: Uses the Wikipedia Android APK (org.wikipedia.alpha). Mobile tests will install/run the local Wikipedia APK and cover onboarding, carousel/navigation, searching, language change, deep scroll, and link navigation inside the Wikipedia app.
 - **API Tests**: REST API testing with reqres.in endpoints (POST Create, GET User)
 - **Rich Reporting**: Allure reports with video recordings, device logs, environment info, and test statistics
 - **CI/CD Ready**: Jenkins pipeline integration with platform-specific builds
@@ -59,11 +59,11 @@ Comprehensive end-to-end automation test suite for Lydia mobile applications and
 │  ├─ pages/                     # API Clients (POM pattern)
 │  │  ├─ BaseApiClient.ts        # Base HTTP client
 │  │  └─ ReqResApiClient.ts      # reqres.in API client
-│  ├─ utils/                      # API utilities
+│  ├─ utils/                     # API utilities
 │  │  ├─ ApiAllureEnhancer.ts    # API Allure enhancer
 │  │  ├─ ApiResponse.ts          # Response types
 │  │  └─ LaunchGenerator.ts      # Launch.json generator
-│  ├─ config/                     # API configuration
+│  ├─ config/                    # API configuration
 │  │  └─ api.config.ts           # API base URL & headers
 │  └─ cucumber.js                # API Cucumber config
 ├─ src
@@ -80,8 +80,8 @@ Comprehensive end-to-end automation test suite for Lydia mobile applications and
 │  ├─ allure-report/            # Mobile Allure report
 │  ├─ allure-api-results/       # API Allure results
 │  ├─ allure-api-report/        # API Allure report
-│  ├─ videos/                    # Scenario recordings (.mp4)
-│  └─ logcat.txt                 # Android log extraction
+│  ├─ videos/                   # Scenario recordings (.mp4)
+│  └─ logcat.txt                # Android log extraction
 ├─ Jenkinsfile                   # CI pipeline
 ├─ package.json
 ├─ cucumber.js                   # Mobile Cucumber config
@@ -114,10 +114,48 @@ export PATH=$ANDROID_HOME/platform-tools:$PATH
 ## Mobile Tests
 
 ### Start Appium (Local)
-To start Appium locally (Android), export environment variables first:
+
+To start the Appium server locally (Android), first export the environment variables then launch Appium:
+
 ```bash
 export ANDROID_HOME=$HOME/Library/Android/sdk && export ANDROID_SDK_ROOT=$ANDROID_HOME && appium
 ```
+
+Note: If Appium is installed globally (`npm i -g appium`) or available via `npx`, simply typing `appium` in the terminal is enough to start the server (if Appium is installed):
+
+```bash
+# start Appium directly (if installed globally)
+appium
+
+# or via npx (if not installed globally)
+npx appium
+```
+
+Quick notes:
+- The command sets `ANDROID_HOME` and `ANDROID_SDK_ROOT` and then runs Appium in the foreground (use Ctrl+C to stop).
+- If Appium is not installed globally, install it with `npm i -g appium` or run it via `npx appium`.
+
+Recommended option — shared script
+
+The project includes a helper script to start Appium and (for `android`) automatically export Android variables: `scripts/start-appium.sh`.
+
+Examples:
+
+```bash
+# make the script executable (one time)
+chmod +x ./scripts/start-appium.sh
+
+# start Appium for Android (script exports ANDROID_HOME automatically)
+npm run appium:start:android
+
+# start Appium for iOS
+npm run appium:start:ios
+
+# start Appium (defaults to android)
+npm run appium:start
+```
+
+These commands run Appium in the foreground and stream logs. To run Appium in the background use `&` or open a separate terminal.
 
 ### Run Mobile Tests
 
@@ -135,20 +173,37 @@ nvm use 20
 platformName=ios npm test
 ```
 
-#### Run Only Tests (Quick)
-Quick run without opening report (e.g., for CI or debug):
+### Start WebDriverAgent manually (if needed)
+If you need to sign/install WebDriverAgent on the iOS device (e.g. to resolve provisioning / WDA issues), run the following (adapt `DEVELOPMENT_TEAM` and `CODE_SIGN_IDENTITY` as required):
+
+```bash
+cd "/Users/macbook/.nvm/versions/node/v20.19.5/lib/node_modules/appium-xcuitest-driver/node_modules/appium-webdriveragent" \
+&& xcodebuild -project WebDriverAgent.xcodeproj \
+  -scheme WebDriverAgentRunner \
+  -destination 'id=00008101-000A3DA60CD1003A' \
+  test \
+  DEVELOPMENT_TEAM=H3967H8WSX \
+  CODE_SIGN_IDENTITY="iPhone Developer" \
+  PRODUCT_BUNDLE_IDENTIFIER=com.hakantetik.WebDriverAgentRunner \
+  -allowProvisioningUpdates 2>&1 | tee /tmp/wda-test.log
+```
+
+Notes: Xcode may request permissions or the keychain password during signing; if the build fails due to provisioning, open `WebDriverAgent.xcodeproj` in Xcode and configure `Signing & Capabilities` manually.
+
+#### Quick run only (no report open)
+For a quick execution without opening the report (useful for CI or debugging):
 ```bash
 platformName=android npm run test:only
 ```
 
 ### Mobile Test Scenarios
 - Launch the app
-- Swipe through carousel until the last image
+- Swipe through the carousel to the last image
 - Search for "Lydia"
-- Scroll until finding the city "Lydia" and dismiss popup
-- Change website language to French
-- Scroll down to the bottom of the page
-- Click on "Crésus" and navigate to the newly opened page
+- Scroll until the city "Lydia" appears and dismiss any popup
+- Change the website language to French
+- Scroll to the bottom of the page
+- Click on "Crésus" and navigate to the opened page
 
 ### Mobile Allure Report
 ```bash
@@ -219,14 +274,6 @@ npm run allure:api:serve
 npm run allure:api:clean
 ```
 
-### API Test Framework Features
-- ✅ Written in TypeScript
-- ✅ Uses Cucumber/Gherkin syntax
-- ✅ Page Object Model (POM) pattern - as API Clients
-- ✅ Independent hooks and setup
-- ✅ Separate Allure report (`target/allure-api-report`)
-- ✅ Completely independent from mobile tests
-
 ---
 
 ## Allure Reporting
@@ -251,7 +298,7 @@ Automatically executed at the end of the run:
 - **Mobile:** `target/allure-report/index.html`
 - **API:** `target/allure-api-report/index.html`
 
-Local runs will attempt to open the HTML report automatically. In CI (`CI=true`), only generation occurs; Jenkins plugin handles publishing.
+Local runs will attempt to open the HTML report automatically. In CI (`CI=true`), only generation occurs; the Jenkins plugin handles publishing.
 
 ### Manual View (if auto open fails)
 ```bash
@@ -275,6 +322,8 @@ open target/allure-api-report/index.html
 | API Attachments | `target/allure-api-results/*-attachment.json` | Request/Response JSON |
 
 ## Continuous Integration
+
+<a name="continuous-integration"></a>
 
 Jenkins Declarative Pipeline (`Jenkinsfile`) stages:
 1. Prepare (Node / PATH)
