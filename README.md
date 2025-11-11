@@ -36,7 +36,7 @@
 
 ## Overview
 Comprehensive end-to-end automation test suite for Lydia mobile applications and APIs. The suite includes:
-- **Mobile Tests**: Full user journey covering onboarding, carousel navigation, searching, language change, deep scroll, and link navigation
+- **Mobile Tests**:  Uses the Wikipedia Android APK (org.wikipedia.alpha). Mobile tests will install/run the local Wikipedia APK and cover onboarding, carousel/navigation, searching, language change, deep scroll, and link navigation inside the Wikipedia app.
 - **API Tests**: REST API testing with reqres.in endpoints (POST Create, GET User)
 - **Rich Reporting**: Allure reports with video recordings, device logs, environment info, and test statistics
 - **CI/CD Ready**: Jenkins pipeline integration with platform-specific builds
