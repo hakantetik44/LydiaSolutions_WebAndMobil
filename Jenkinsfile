@@ -56,115 +56,37 @@ pipeline {
       }
     }
 
-    stage('Setup Appium') {
+    stage('Appium') {
       when { expression { params.PLATFORM != 'web' } }
       steps {
+        echo "================ APPUMIUM SETUP ================"
         sh '''#!/bin/bash
           set +x
           source "$HOME/.nvm/nvm.sh" --no-use >/dev/null 2>&1
           nvm use 20 >/dev/null 2>&1
 
           if ! command -v appium &> /dev/null; then
-            echo "Installing Appium 3.1.0..."
-            npm install -g appium@3.1.0 >/dev/null 2>&1
+            echo "Installing Appium..."
+            npm install -g appium >/dev/null 2>&1
           fi
 
           echo "✅ Appium: $(appium --version)"
-        '''
 
-        script {
-          def p = params.PLATFORM.toLowerCase()
-
-          if (p == 'ios') {
-            sh '''#!/bin/bash
-              set +x
-              source "$HOME/.nvm/nvm.sh" --no-use >/dev/null 2>&1
-              nvm use 20 >/dev/null 2>&1
-
-              echo "Installing XCUITest driver..."
-              appium driver install xcuitest 2>&1 | grep -E "(installed|already)" || true
-            '''
-          } else if (p == 'android') {
-            sh '''#!/bin/bash
-              set +x
-              source "$HOME/.nvm/nvm.sh" --no-use >/dev/null 2>&1
-              nvm use 20 >/dev/null 2>&1
-
-              echo "Installing UiAutomator2 driver..."
-              appium driver install uiautomator2 2>&1 | grep -E "(installed|already)" || true
-            '''
-          }
-
-          sh '''#!/bin/bash
-            set +x
-            source "$HOME/.nvm/nvm.sh" --no-use >/dev/null 2>&1
-            nvm use 20 >/dev/null 2>&1
-
-            echo "Installed drivers:"
-            appium driver list --installed
-          '''
-        }
-      }
-    }
-
-    stage('Start Appium Server') {
-      when { expression { params.PLATFORM != 'web' } }
-      steps {
-        sh '''#!/bin/bash
-          set +x
-          source "$HOME/.nvm/nvm.sh" --no-use >/dev/null 2>&1
-          nvm use 20 >/dev/null 2>&1
-
+          echo "Starting Appium server..."
           pkill -f appium || true
-          sleep 2
           mkdir -p target
-        '''
+          nohup appium --relaxed-security --port 4723 --log target/appium.log > target/appium.out 2>&1 &
+          echo $! > appium.pid
+          sleep 5
 
-        script {
-          def p = params.PLATFORM.toLowerCase()
-
-          if (p == 'android') {
-            sh '''#!/bin/bash
-              set +x
-              source "$HOME/.nvm/nvm.sh" --no-use >/dev/null 2>&1
-              nvm use 20 >/dev/null 2>&1
-
-              export ANDROID_HOME=$HOME/Library/Android/sdk
-              export ANDROID_SDK_ROOT=$ANDROID_HOME
-              export PATH=$ANDROID_HOME/platform-tools:$PATH
-
-              echo "Starting Appium for Android..."
-              nohup appium --log target/appium.log --relaxed-security --port 4723 >target/appium.out 2>&1 &
-              echo $! > appium.pid
-              sleep 3
-            '''
-          } else {
-            sh '''#!/bin/bash
-              set +x
-              source "$HOME/.nvm/nvm.sh" --no-use >/dev/null 2>&1
-              nvm use 20 >/dev/null 2>&1
-
-              echo "Starting Appium..."
-              nohup appium --log target/appium.log --relaxed-security --port 4723 >target/appium.out 2>&1 &
-              echo $! > appium.pid
-              sleep 3
-            '''
-          }
-        }
-
-        sh '''#!/bin/bash
-          set +x
-          echo "Waiting for Appium..."
+          # Wait for Appium to be ready
           for i in {1..15}; do
             if curl -s http://localhost:4723/status 2>/dev/null | grep -q "ready"; then
               echo "✅ Appium ready!"
-              exit 0
+              break
             fi
             sleep 2
           done
-
-          echo "⚠️  Appium timeout, checking logs..."
-          tail -30 target/appium.log 2>/dev/null || cat target/appium.out 2>/dev/null || echo "No logs"
         '''
       }
     }
@@ -188,9 +110,6 @@ pipeline {
           if (p == 'android') {
             sh '''#!/bin/bash
               set +x
-              source "$HOME/.nvm/nvm.sh" --no-use >/dev/null 2>&1
-              nvm use 20 >/dev/null 2>&1
-
               export ANDROID_HOME=$HOME/Library/Android/sdk
               export ANDROID_SDK_ROOT=$ANDROID_HOME
               export PATH=$ANDROID_HOME/platform-tools:$ANDROID_HOME/tools:$ANDROID_HOME/cmdline-tools/latest/bin:$PATH
@@ -205,23 +124,12 @@ pipeline {
               fi
               echo "✅ Android SDK found"
 
-              if [ ! -d "$ANDROID_HOME/platform-tools" ]; then
-                echo "❌ platform-tools not found"
-                exit 1
-              fi
-
               if command -v adb &> /dev/null; then
                 echo "✅ adb: $(which adb)"
                 adb version | head -1
                 echo ""
                 echo "Connected devices:"
                 adb devices
-              elif [ -f "$ANDROID_HOME/platform-tools/adb" ]; then
-                echo "✅ adb: $ANDROID_HOME/platform-tools/adb"
-                "$ANDROID_HOME/platform-tools/adb" version | head -1
-                echo ""
-                echo "Connected devices:"
-                "$ANDROID_HOME/platform-tools/adb" devices
               else
                 echo "❌ adb not found!"
                 exit 1
@@ -230,9 +138,6 @@ pipeline {
           } else if (p == 'ios') {
             sh '''#!/bin/bash
               set +x
-              source "$HOME/.nvm/nvm.sh" --no-use >/dev/null 2>&1
-              nvm use 20 >/dev/null 2>&1
-
               echo ""
               echo "=== iOS Setup ==="
 
@@ -261,44 +166,16 @@ pipeline {
             set +x
             source "$HOME/.nvm/nvm.sh" --no-use >/dev/null 2>&1
             nvm use 20 >/dev/null 2>&1
-
             npm run allure:clean || true
           '''
 
-          def testResult = 0
-
-          if (p == 'android') {
-            testResult = sh(returnStatus: true, script: '''#!/bin/bash
-              set +x
-              source "$HOME/.nvm/nvm.sh" --no-use >/dev/null 2>&1
-              nvm use 20 >/dev/null 2>&1
-
-              export ANDROID_HOME=$HOME/Library/Android/sdk
-              export ANDROID_SDK_ROOT=$ANDROID_HOME
-              export PATH=$ANDROID_HOME/platform-tools:$PATH
-
-              echo "Running: platformName=android npm test"
-              platformName=android npm test
-            ''')
-          } else if (p == 'ios') {
-            testResult = sh(returnStatus: true, script: '''#!/bin/bash
-              set +x
-              source "$HOME/.nvm/nvm.sh" --no-use >/dev/null 2>&1
-              nvm use 20 >/dev/null 2>&1
-
-              echo "Running: platformName=ios npm test"
-              platformName=ios npm test
-            ''')
-          } else {
-            testResult = sh(returnStatus: true, script: '''#!/bin/bash
-              set +x
-              source "$HOME/.nvm/nvm.sh" --no-use >/dev/null 2>&1
-              nvm use 20 >/dev/null 2>&1
-
-              echo "Running: npm test"
-              npm test
-            ''')
-          }
+          def testResult = sh(returnStatus: true, script: """
+            set +x
+            source "$HOME/.nvm/nvm.sh" --no-use >/dev/null 2>&1
+            nvm use 20 >/dev/null 2>&1
+            echo "Running tests for platform=${p}"
+            platformName=${p} npm test
+          """)
 
           if (testResult == 0) {
             echo "✅ TESTS PASSED"
@@ -315,7 +192,6 @@ pipeline {
     always {
       script {
         echo "================ CLEANUP ================"
-
         sh '''#!/bin/bash
           set +x
           if [ -f appium.pid ]; then
