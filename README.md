@@ -33,7 +33,6 @@
 10. [Configuration](#configuration)
 11. [Troubleshooting](#troubleshooting)
 12. [Next Improvements](#next-improvements)
-13. [License](#license)
 
 ## Overview
 Comprehensive end-to-end automation test suite for Lydia mobile applications and APIs. The suite includes:
@@ -350,8 +349,6 @@ HEADERS: {
 - Add API test data management
 - Add API mocking capabilities
 
-## License
-Internal / proprietary test automation assets. Adjust license header if distributing.
-
 ---
+
 > Maintained with focus on speed (aggressive polling), clean page objects, rich reporting for fast feedback, and independent mobile/API test frameworks.
