@@ -20,7 +20,16 @@ When('I send a POST request to create a user', async function() {
     const response = await apiClient.createUser(userData);
     apiContext.lastResponse = response;
     apiContext.createdUserId = response.data.id;
-    
+
+    // Debug: log full response to terminal so user can be certain the POST happened
+    console.log('[ApiSteps] POST response:', {
+        status: response.status,
+        statusText: response.statusText,
+        data: response.data,
+        headers: response.headers,
+        responseTime: response.responseTime
+    });
+
     // Attach request and response to Allure
     await this.attach(JSON.stringify({ request: userData }, null, 2), 'application/json');
     await this.attach(JSON.stringify({ response: response.data, status: response.status }, null, 2), 'application/json');

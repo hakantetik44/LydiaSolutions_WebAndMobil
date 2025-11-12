@@ -10,46 +10,44 @@ export class HomePage extends BasePage {
 
     public getSkipButton(): string {
         return OS.isAndroid()
-            ? '//*[@text="Skip" or @content-desc="Skip" or @resource-id="org.wikipedia.alpha:id/fragment_onboarding_skip_button"]'
+            ? 'id=org.wikipedia.alpha:id/fragment_onboarding_skip_button'
             : '~Skip';
     }
 
     public getSearchButton(): string {
         return OS.isAndroid()
-            ? '(//android.widget.FrameLayout[@resource-id="org.wikipedia.alpha:id/navigation_bar_item_icon_container"])[3]'
+            ? 'id=org.wikipedia.alpha:id/navigation_bar_item_icon_container'
             : '-ios class chain:**/XCUIElementTypeSearchField';
     }
 
     public getSearchInput(): string {
         return OS.isAndroid()
-            ? '//*[@resource-id="org.wikipedia.alpha:id/search_src_text"]'
+            ? 'id=org.wikipedia.alpha:id/search_src_text'
             : '-ios class chain:**/XCUIElementTypeSearchField';
     }
 
     public getFirstSearchResult(query: string): string {
         return OS.isAndroid()
-            ? `(//android.widget.TextView[contains(@text,"${query}")])[1]`
+            ? `android=new UiSelector().textContains("${query}")`
             : `-ios predicate string:type == "XCUIElementTypeStaticText" AND name CONTAINS "${query}"`;
     }
 
     public getSearchFallbackInput(): string {
         return OS.isAndroid()
-            ? '//android.widget.EditText'
+            ? 'android=new UiSelector().className("android.widget.EditText")'
             : '-ios class chain:**/XCUIElementTypeTextField';
     }
 
     public getCityLocator(cityName: string): string {
         return OS.isAndroid()
-            ? `//android.widget.TextView[contains(@text, "${cityName}")]`
+            ? `android=new UiSelector().textContains("${cityName}")`
             : `-ios predicate string:type == "XCUIElementTypeStaticText" AND name CONTAINS "${cityName}"`;
     }
 
     public getPopupCloseButtons(): string[] {
         return OS.isAndroid()
             ? [
-                '//*[@resource-id="org.wikipedia.alpha:id/closeButton"]',
-                '//android.widget.ImageView[@content-desc="Close"]',
-                'android=new UiSelector().resourceId("org.wikipedia.alpha:id/closeButton")',
+                'id=org.wikipedia.alpha:id/closeButton',
                 '~Close'
             ]
             : [
@@ -59,55 +57,55 @@ export class HomePage extends BasePage {
 
     public getLanguageButton(): string {
         return OS.isAndroid()
-            ? '//android.widget.TextView[contains(@text, "Lang") or contains(@content-desc, "language") or contains(@resource-id, "language")]'
+            ? 'android=new UiSelector().textContains("Lang")'
             : '~language';
     }
 
     public getLanguageMenuSearchButton(): string {
         return OS.isAndroid()
-            ? '(//android.widget.Button)[2]'
+            ? 'android=new UiSelector().textContains("Search")'
             : '-ios class chain:**/XCUIElementTypeButton';
     }
 
     public getLanguageMenuSearchField(): string {
         return OS.isAndroid()
-            ? '//android.widget.EditText'
+            ? 'id=org.wikipedia.alpha:id/search_src_text'
             : '-ios class chain:**/XCUIElementTypeTextField';
     }
 
     public getFrenchLanguageOption(): string {
         return OS.isAndroid()
-            ? '//android.widget.TextView[@text="Français"]'
+            ? 'android=new UiSelector().textContains("Français")'
             : '-ios predicate string:type == "XCUIElementTypeStaticText" AND name CONTAINS "Français"';
     }
 
     public getLinkLocator(linkText: string): string {
         return OS.isAndroid()
-            ? `//android.widget.TextView[contains(@text, "${linkText}")]`
+            ? `android=new UiSelector().textContains("${linkText}")`
             : `-ios predicate string:type == "XCUIElementTypeStaticText" AND name CONTAINS "${linkText}"`;
     }
 
     public getLinkFallbackLocator(): string {
         return OS.isAndroid()
-            ? '//*[contains(@text, "Cr")]'
+            ? 'android=new UiSelector().textContains("Cr")'
             : '-ios class chain:**/XCUIElementTypeStaticText';
     }
 
     public getLinkPreviewSecondaryButton(): string {
         return OS.isAndroid()
-            ? '//*[@resource-id="org.wikipedia.alpha:id/link_preview_secondary_button"]'
+            ? 'id=org.wikipedia.alpha:id/link_preview_secondary_button'
             : '-ios class chain:**/XCUIElementTypeButton';
     }
 
     public getCresusPageTitle(): string {
         return OS.isAndroid()
-            ? '(//android.widget.TextView[@text="Crésus"])[1]'
+            ? 'android=new UiSelector().textContains("Crésus")'
             : '-ios predicate string:type == "XCUIElementTypeStaticText" AND name == "Crésus"';
     }
 
     public getTabsCountButton(): string {
         return OS.isAndroid()
-            ? '//*[@resource-id="org.wikipedia.alpha:id/tabsCountText"]'
+            ? 'id=org.wikipedia.alpha:id/tabsCountText'
             : '-ios class chain:**/XCUIElementTypeButton';
     }
 

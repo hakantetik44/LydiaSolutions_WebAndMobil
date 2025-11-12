@@ -3,6 +3,7 @@ import * as path from 'path';
 import { exec } from 'child_process';
 import { promisify } from 'util';
 import { LaunchGenerator } from './LaunchGenerator';
+import { ApiConfig } from '../config/api.config';
 
 const execAsync = promisify(exec);
 
@@ -60,7 +61,8 @@ export class ApiAllureEnhancer {
         });
 
         const envInfo = {
-            'API Base URL': process.env.API_BASE_URL || 'https://reqres.in/api',
+            // Use project's ApiConfig.BASE_URL to ensure the environment file shows the configured base URL (ends with '/users')
+            'API Base URL': ApiConfig.BASE_URL,
             'Node Version': nodeVersion,
             'Test Environment': process.env.TEST_ENV || 'LOCAL',
             'Execution Date': executionDate,
@@ -153,4 +155,3 @@ export class ApiAllureEnhancer {
         }
     }
 }
-

@@ -4,13 +4,12 @@ import { promisify } from 'util';
 import * as fs from 'fs';
 import * as path from 'path';
 import { ApiAllureEnhancer } from '../utils/ApiAllureEnhancer';
+import { ReqResApiClient } from '../pages/ReqResApiClient';
 
 const execAsync = promisify(exec);
 
-// Set default timeout for API tests
 setDefaultTimeout(60000);
 
-// Context to store API responses between steps
 export const apiContext: {
     lastResponse?: any;
     createdUserId?: string;
@@ -20,7 +19,6 @@ export const apiContext: {
 } = {};
 
 Before(async function() {
-    // Initialize context for each scenario
     apiContext.lastResponse = undefined;
     apiContext.createdUserId = undefined;
     apiContext.fetchedUser = undefined;
@@ -52,6 +50,40 @@ After(async function(scenario) {
 // Generate Allure report after all API tests complete
 AfterAll(async function() {
     const isCI = process.env.CI === 'true' || process.env.CI === '1';
+
+    // --- New: fetch and print all user names to terminal ---
+    try {
+        const client = new ReqResApiClient();
+        console.log('\n📋 Fetching all user names from API (for debug):');
+        const first = await client.getUsers(1);
+        if (first && first.data) {
+            const totalPages = first.data.total_pages || 1;
+            const names: string[] = [];
+
+            const extractNames = (pageData: any) => {
+                const items = pageData.data || [];
+                for (const u of items) {
+                    names.push(`${u.first_name} ${u.last_name}`);
+                }
+            };
+
+            extractNames(first.data);
+            for (let p = 2; p <= totalPages; p++) {
+                const resp = await client.getUsers(p);
+                if (resp && resp.data) extractNames(resp.data);
+            }
+
+            console.log('Found users:');
+            for (const n of names) console.log(' -', n);
+            console.log('');
+        } else {
+            console.log('No user list returned.');
+        }
+    } catch (err) {
+        console.warn('Failed to fetch user list for debug:', err);
+    }
+    // --- End fetch and print ---
+
     console.log('\n' + '='.repeat(60));
     console.log('📊 Generating API Allure report...');
     console.log('='.repeat(60));
@@ -85,4 +117,3 @@ AfterAll(async function() {
         console.error('⚠️ API Allure report generation error:', error);
     }
 });
-

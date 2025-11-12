@@ -7,9 +7,9 @@ export interface CreateUserRequest {
 }
 
 export interface CreateUserResponse {
+    id: string;
     name: string;
     job: string;
-    id: string;
     createdAt: string;
 }
 
@@ -21,41 +21,33 @@ export interface User {
     avatar: string;
 }
 
-export interface SingleUserResponse {
-    data: User;
-    support?: {
-        url: string;
-        text: string;
-    };
+export interface UsersListResponse {
+    page: number;
+    per_page: number;
+    total: number;
+    total_pages: number;
+    data: User[];
+    support?: any;
+    _meta?: any;
 }
 
 export class ReqResApiClient extends BaseApiClient {
     constructor() {
-        super('https://reqres.in/api');
+        super();
     }
 
-    /**
-     * Create a new user
-     * POST /api/users
-     */
-    async createUser(userData: CreateUserRequest): Promise<ApiResponse<CreateUserResponse>> {
-        return await this.post<CreateUserResponse>('/users', userData);
+
+    async createUser(user: CreateUserRequest): Promise<ApiResponse<CreateUserResponse>> {
+        return this.post<CreateUserResponse>('', user, { 'Content-Type': 'application/json' });
     }
 
-    /**
-     * Get a single user by ID
-     * GET /api/users/{id}
-     */
-    async getUserById(userId: number): Promise<ApiResponse<SingleUserResponse>> {
-        return await this.get<SingleUserResponse>(`/users/${userId}`);
+
+    async getUserById(userId: number): Promise<ApiResponse<{ data: User }>> {
+        return this.get<{ data: User }>(`/${userId}`);
     }
 
-    /**
-     * Get list of users
-     * GET /api/users?page={page}
-     */
-    async getUsers(page: number = 1): Promise<ApiResponse<any>> {
-        return await this.get<any>(`/users?page=${page}`);
+
+    async getUsers(page: number = 1): Promise<ApiResponse<UsersListResponse>> {
+        return await this.get<UsersListResponse>(`?page=${page}`);
     }
 }
-

@@ -7,32 +7,6 @@ export class BasePage {
         this.driver = driver;
     }
 
-    /** Try an immediate click with no waiting. Returns true on success. */
-    public async clickNow(selector: string): Promise<boolean> {
-        try {
-            const el = await this.driver.$(selector);
-            if (await el.isExisting() && await el.isDisplayed()) {
-                await el.click();
-                return true;
-            }
-        } catch { /* ignore */ }
-        return false;
-    }
-
-    /** Try an immediate type with no waiting. Returns true on success. */
-    public async typeNow(selector: string, text: string, clearFirst: boolean = true): Promise<boolean> {
-        try {
-            const el = await this.driver.$(selector);
-            if (await el.isExisting() && await el.isDisplayed()) {
-                if (clearFirst) { try { await el.clearValue(); } catch { /* ignore */ } }
-                await el.setValue(text);
-                await this.hideKeyboard();
-                return true;
-            }
-        } catch { /* ignore */ }
-        return false;
-    }
-
     /** Wait dynamically for a condition to be true (aggressive polling) */
     protected async waitForCondition(checkFn: () => boolean | Promise<boolean>): Promise<void> {
         const timeout = 30000;

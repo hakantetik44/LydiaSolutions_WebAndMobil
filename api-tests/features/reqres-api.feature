@@ -20,3 +20,4 @@ Feature: ReqRes API Testing
     And the response should contain user data with id 2, email "janet.weaver@reqres.in", first_name "Janet", and last_name "Weaver"
     And the response time should be less than 3000 milliseconds
 
+

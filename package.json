@@ -8,7 +8,7 @@
     "test:android": "platformName=android cucumber-js && npm run allure:report",
     "test:ios": "platformName=ios cucumber-js && npm run allure:report",
     "test:only": "cucumber-js",
-    "test:api": "cucumber-js --config api-tests/cucumber.js && npm run allure:api:report",
+    "test:api": "npm run allure:api:clean && cucumber-js --config api-tests/cucumber.js && npm run allure:api:report",
     "test:api:only": "cucumber-js --config api-tests/cucumber.js",
     "test:all": "cucumber-js --config api-tests/cucumber.js && sleep 3 && allure generate target/allure-api-results --clean -o target/allure-api-report && sleep 2 && open target/allure-api-report/index.html || allure open target/allure-api-report",
     "allure:enhance": "ts-node -e \"require('./src/test/typescript/utils/AllureEnhancer').enhanceAllure()\"",
