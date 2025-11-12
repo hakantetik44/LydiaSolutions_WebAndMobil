@@ -23,7 +23,10 @@
     "allure:api:clean": "rm -rf target/allure-api-results/* target/allure-api-report/*",
     "build": "tsc",
     "clean": "rm -rf dist && npm run allure:clean",
-    "prebuild": "npm run clean"
+    "prebuild": "npm run clean",
+    "appium:start": "./scripts/start-appium.sh",
+    "appium:start:android": "./scripts/start-appium.sh android",
+    "appium:start:ios": "./scripts/start-appium.sh ios"
   },
   "keywords": [
     "e2e",
